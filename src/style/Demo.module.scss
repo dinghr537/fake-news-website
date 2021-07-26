@@ -1,0 +1,173 @@
+@import './Variable.module';
+
+.whole-page {
+    background-color: black;
+    //background-image: url(https://i.imgur.com/Uw0xt6y.jpg); // TODO: change image hosting service
+    // background-image: linear-gradient(to bottom , url(https://i.imgur.com/Uw0xt6y.jpg), black);
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    // height: 100%;
+    // object-fit: fill;
+}
+
+.demo-title {
+    padding-top: 20;
+    font-size: 28px;
+    margin-bottom: 0;
+    text-align: center;
+    color: white;
+  
+    @media screen and (min-width: $sm) {
+      font-size: 34px;
+    }
+  
+    @media screen and (min-width: $md) {
+      font-size: 40px;
+    }
+
+}
+
+.IO-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-top: 20;
+    padding-bottom: 20;
+    padding-left: 20;
+    padding-right: 20;
+}
+
+.btn {
+    width: 100%;
+    // color: white;
+
+
+    &-container {
+        margin-top: 20;
+    }
+}
+
+.input-frame {
+    min-height: 300;
+}
+
+.input-title {
+    max-width: 100%;
+    padding: 0 20 20 20;
+    border: solid rgba(173, 203, 224, 0.8) 2px;
+    background-color: rgba(60, 60, 60, 0.1);
+    width: 694;
+
+    &-h3 {
+        font-size: 20px;
+        color: white;
+
+        @media screen and (min-width: $sm) {
+            font-size: 24px;
+        }
+
+        @media screen and (min-width: $md) {
+            font-size: 26px;
+        }
+    }
+
+    &-div {
+        max-width: 100%;
+    }
+
+    &-text {
+        width: 650;
+        max-width: 100%;
+        font-size: 22;
+        color: white;
+        color: aquamarine;
+
+        
+    }
+}
+
+.input-label-desc {
+    color: white;
+}
+
+
+
+.output-title {
+    // margin-top: 30;
+    max-width: 100%;
+    padding: 0 20 20 20;
+    border: solid rgba(173, 203, 224, 0.8) 2px;
+    background-color: rgba(60, 60, 60, 0.1);
+    width: 694;
+    // min-height: 450;
+
+    &-h3 {
+        font-size: 20px;
+        color: white;
+    }
+
+    &-div {
+        max-width: 100%;
+    }
+
+    &-text {
+        width: 650;
+        max-width: 100%;
+        font-size: 24;
+        color: white;
+        color: aquamarine;
+    }
+
+    &-desc {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        font-size: 28;
+    }
+
+    &-desc > p {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+.output-content {
+    min-height: 50%;
+    width: 100%;
+
+}
+
+.org {
+    color: red;
+    display: inline;
+}
+
+.per {
+    color: greenyellow;
+    display: inline;
+}
+
+.loc {
+    color: DodgerBlue;
+    display: inline;
+}
+
+.num {
+    color: orange;
+    display: inline;
+}
+
+.en {
+    color:palevioletred;
+    display: inline;
+}
+
+
+
+// div.input-title-text > div {
+//     font-size: 24;
+// }
+
+// div.input-title-text  textarea {
+//     color: white;
+// }
