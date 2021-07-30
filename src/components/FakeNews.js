@@ -6,7 +6,13 @@ import { StylesProvider } from '@material-ui/core/styles';
 import DemoStyle from './../style/Demo.module.scss'
 import Button from '@material-ui/core/Button';
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 import { keys } from '@material-ui/core/styles/createBreakpoints';
+import HelpIcon from '@material-ui/icons/Help';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+
+import HeaderStyle from './../style/Header.module.scss'
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -52,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .MuiTextField-root': {
             margin: theme.spacing(2, 0),
-            width: 200,
+            width: 150,
         },
         color: 'white',
         fontSize: "24",
@@ -73,7 +79,10 @@ const useStyles = makeStyles((theme) => ({
             color: '#3c52b2',
         },
         width: '100%',
-    }
+    },
+    typography: {
+        padding: theme.spacing(2),
+    },
 }));
 
 
@@ -86,6 +95,18 @@ export default function FakeNews() {
     const [output, setOutput] = useState("");
     const [targetLength, setTargetLength] = useState(300);
     const [row, setRow] = useState(6);
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+
+    const handleAnchorOn = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     function handleTitle(event) {
         setTitle(event.target.value);
@@ -189,92 +210,175 @@ export default function FakeNews() {
                     </div>
                     <div className={classes.inputNumberContainer} noValidate>
                         {/* <p> Top K </p> */}
-                        <TextField
-                            id="top-k"
-                            label="生成隨機性"
-                            type="number"
-                            value={topK}
-                            onChange={handleTopK}
-                            InputLabelProps={{
-                                style: {
-                                    color: 'white',
-                                    fontSize: 24,
-                                },
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    type: 'number',
-                                    min: 1,
-                                },
-                                className: classes.KVInput
-                            }}
-                            variant="outlined"
-                        />
-                        <TextField
-                            id="length"
-                            label="生成長度"
-                            type="number"
-                            value={targetLength}
-                            onChange={handleTargetLength}
-                            InputLabelProps={{
-                                style: {
-                                    color: 'white',
-                                    fontSize: 24,
+                        <div>
+                            <TextField
+                                id="top-k"
+                                label="生成隨機性"
+                                type="number"
+                                value={topK}
+                                onChange={handleTopK}
+                                InputLabelProps={{
+                                    style: {
+                                        color: 'white',
+                                        fontSize: 24,
+                                    },
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        type: 'number',
+                                        min: 1,
+                                    },
+                                    className: classes.KVInput
+                                }}
+                                variant="outlined"
+                            />
+                            {/* popover test */}
+                            <IconButton aria-label="more" onClick={handleAnchorOn}>
+                                <HelpIcon className={HeaderStyle['list-item-icon']} />
+                            </IconButton>
+                            <Popover
+                                id={id}
+                                open={open}
+                                anchorEl={anchorEl}
+                                onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                            >
+                                <Typography className={classes.typography}>The content of the Popover.</Typography>
+                            </Popover>
+                        </div>
+                        <div>
+                            <TextField
+                                id="length"
+                                label="生成長度"
+                                type="number"
+                                value={targetLength}
+                                onChange={handleTargetLength}
+                                InputLabelProps={{
+                                    style: {
+                                        color: 'white',
+                                        fontSize: 24,
 
-                                },
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    type: 'number',
-                                    min: 1,
-                                },
-                                className: classes.KVInput
-                            }}
-                            variant="outlined"
-                        />
-                        <TextField
-                            id="XXX"
-                            label="XXX(anyway)"
-                            type="number"
-                            InputLabelProps={{
-                                style: {
-                                    color: 'white',
-                                    fontSize: 24,
+                                    },
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        type: 'number',
+                                        min: 1,
+                                    },
+                                    className: classes.KVInput
+                                }}
+                                variant="outlined"
+                            /><IconButton aria-label="more" onClick={handleAnchorOn}>
+                                <HelpIcon className={HeaderStyle['list-item-icon']} />
+                            </IconButton>
+                            <Popover
+                                id={id}
+                                open={open}
+                                anchorEl={anchorEl}
+                                onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                            >
+                                <Typography className={classes.typography}>The content of the Popover.</Typography>
+                            </Popover>
+                        </div>
+                        <div>
+                            <TextField
+                                id="XXX"
+                                label="XXX(anyway)"
+                                type="number"
+                                InputLabelProps={{
+                                    style: {
+                                        color: 'white',
+                                        fontSize: 24,
 
-                                },
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    type: 'number',
-                                    min: 1,
-                                    defaultValue: 20,
-                                },
-                                className: classes.KVInput
-                            }}
-                            variant="outlined"
-                        />
-                        <TextField
-                            id="TNT"
-                            label="TNT"
-                            type="number"
-                            InputLabelProps={{
-                                style: {
-                                    color: 'white',
-                                    fontSize: 24,
+                                    },
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        type: 'number',
+                                        min: 1,
+                                        defaultValue: 20,
+                                    },
+                                    className: classes.KVInput
+                                }}
+                                variant="outlined"
+                            />
+                            <IconButton aria-label="more" onClick={handleAnchorOn}>
+                                <HelpIcon className={HeaderStyle['list-item-icon']} />
+                            </IconButton>
+                            <Popover
+                                id={id}
+                                open={open}
+                                anchorEl={anchorEl}
+                                onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                            >
+                                <Typography className={classes.typography}>The content of the Popover.</Typography>
+                            </Popover>
+                        </div>
+                        <div>
+                            <TextField
+                                id="TNT"
+                                label="TNT"
+                                type="number"
+                                InputLabelProps={{
+                                    style: {
+                                        color: 'white',
+                                        fontSize: 24,
 
-                                },
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    type: 'number',
-                                    min: 1,
-                                    defaultValue: 300,
-                                },
-                                className: classes.KVInput
-                            }}
-                            variant="outlined"
-                        />
-
+                                    },
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        type: 'number',
+                                        min: 1,
+                                        defaultValue: 300,
+                                    },
+                                    className: classes.KVInput
+                                }}
+                                variant="outlined"
+                            />
+                            <IconButton aria-label="more" onClick={handleAnchorOn}>
+                                <HelpIcon className={HeaderStyle['list-item-icon']} />
+                            </IconButton>
+                            <Popover
+                                id={id}
+                                open={open}
+                                anchorEl={anchorEl}
+                                onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                            >
+                                <Typography className={classes.typography}>The content of the Popover.</Typography>
+                            </Popover>
+                        </div>
                     </div>
                     <div>
 

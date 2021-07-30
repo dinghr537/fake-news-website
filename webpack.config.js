@@ -7,6 +7,7 @@ module.exports = [
     'data',
     'method',
     'demo1',
+    'newsEditor',
 ].map((entry, index) => {
     const config = {
         entry: `./src/${entry}.jsx`,
