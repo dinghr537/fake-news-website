@@ -1,0 +1,16 @@
+@import './Variable.module';
+.footerbackground {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #0a0b38;
+    width: 100%;
+    color: #fff;
+    margin-top: 40%;
+}
+
+.logo {
+    height: auto;
+    max-width: 100px;
+    width: 100px;
+}
