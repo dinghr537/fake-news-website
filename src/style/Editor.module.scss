@@ -61,6 +61,19 @@
     border: 1px solid white;
     border-radius: 5px;
     min-height: 200px;
+    margin-top: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.btn {
+    width: 100%;
+    // color: white;
+
+
+    &-container {
+        margin-top: 20;
+    }
 }
 
 .num {
@@ -82,5 +95,6 @@
 .en {
     color: palevioletred;
 }
+
 
 

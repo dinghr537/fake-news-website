@@ -3,10 +3,11 @@
     display: flex;
     justify-content: center;
     padding: 20px;
-    background-color: #0a0b38;
+    // background-color: black;
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.9)),
+    url(https://i.imgur.com/t4a1Tmq.jpg);
     width: 100%;
     color: #fff;
-    margin-top: 40%;
 }
 
 .logo {
