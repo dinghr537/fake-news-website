@@ -48,6 +48,29 @@ const useStyles = makeStyles((theme) => ({
         },
         width: '100%',
     },
+    editorField: {
+        // width: 600,
+        // maxWidth: "100%",
+        "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+            borderColor: "rgb(200, 200, 200)",
+        },
+        "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+            borderColor: "white"
+        },
+        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "rgb(235, 250, 173)"
+        },
+        "& .MuiInputBase-root.Mui-disabled": {
+            color: "white",
+        },
+        minHeight: "150",
+        boxSizing: "border-box",
+        color: 'white',
+        fontSize: "22",
+        width: "100%",
+        maxWidth: "100%",
+        padding: "20 20 20 20",
+    },
 }))
 
 function TagList(props) {
@@ -117,10 +140,10 @@ export default function Demo1Content() {
     }
 
 
-    function handleClick() {
+    function handleClick(event) {
         console.log(news);
-        setNews("<num>日美國<num5>總統<per0>與英國<en>首相<per1>好的我知道了");
-        let syncNews = "<num>日美國<num5>總統<per0>與英國<en>首相<per1>好的我知道了";
+        setNews(event.target.value);
+        let syncNews = event.target.value;
         tags = syncNews.match(reG);
         tagSet = new Set(tags);
         console.log(syncNews);
@@ -130,7 +153,13 @@ export default function Demo1Content() {
             let innerTag = tag.substring(1, tag.length - 1)
             tempState[innerTag] = innerTag;
         }
-        // console.log(tempState);
+        console.log(tempState);
+        const keys = Object.keys(tempState);
+        Object.assign(tempState, state);
+        console.log(tempState);
+        Object.keys(tempState)
+            .filter(key => !keys.includes(key))
+            .forEach(key => delete tempState[key]);
         setState(tempState);
         syncState = tempState;
     }
@@ -167,18 +196,34 @@ export default function Demo1Content() {
                         </Grid>
                         <Grid
                             className={EditorStyle['content-signature']}
-                            item xs={12} sm={10} md={7} lg={6} xl={7}>
-                            <div className={EditorStyle['news']}>
-                                {contentFragment.map((item, index) => <span key={index}>{item}</span>)}
-                            </div>
-                            <div className={EditorStyle['btn-container']}>
-                                <Button className={classes.button}
-                                    // variant="outlined"
-                                    color="secondary"
-                                    onClick={handleClick}
-                                >
-                                    修改新聞內容
-                                </Button>
+                            item xs={12} sm={10} md={7} lg={6} xl={7}
+                        >
+                            <div>
+                                <div className={EditorStyle['news']}>
+                                    {contentFragment.map((item, index) => <span key={index}>{item}</span>)}
+                                </div>
+                                {/* <div className={EditorStyle['btn-container']}>
+                                    <Button className={classes.button}
+                                        // variant="outlined"
+                                        color="secondary"
+                                        onClick={handleClick}
+                                    >
+                                        修改新聞內容
+                                    </Button>
+                                </div> */}
+                                <TextField className={classes.editorField}
+                                    id="news"
+                                    // label="title"
+                                    multiline
+                                    InputProps={{
+                                        className: classes.editorField
+                                    }}
+                                    // rows={4}
+                                    // defaultValue="<num> 日美國總統<per0>與英國首相<per1>舉行雙邊會談，"
+                                    value={news}
+                                    onChange={handleClick}
+                                    variant="outlined"
+                                />
                             </div>
                         </Grid>
                     </Grid>
