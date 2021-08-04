@@ -2,10 +2,13 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from "@material-ui/core/styles";
-import Button from '@material-ui/core/Button';
-import FakeNews from './FakeNews.js'
 import { useState } from 'react';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
 import EditorStyle from './../style/Editor.module.scss'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const tempNews = `<num>日美國總統<per0>與英國<en>首相<per1>於<loc0>舉行雙<en2>邊會談，兩人會後發布聯合聲明，<per0>表示支持<org0>...`;
 
@@ -67,8 +70,27 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "22",
         width: "100%",
         maxWidth: "100%",
-        padding: "20 20 20 20",
+        padding: "16 16 16 16",
         alignItems: "flex-start",
+    },
+    heading: {
+        fontSize: "20",
+        fontWeight: theme.typography.fontWeightRegular,
+    },
+    accordion: {
+        backgroundColor: "black",
+        color: "white",
+        marginTop: "20",
+        marginLeft: "20",
+        marginRight: "20",
+        "& .Mui-expanded": {
+            border: "none",
+        }
+    },
+    accordionSummary: {
+        border: "1px solid white",
+        borderRadius: "5px",
+        // transition: "width 2s, height 4s",
     },
 }))
 
@@ -107,7 +129,7 @@ function TagList(props) {
     )
 }
 
-export default function Demo1Content() {
+export default function EditorContent() {
     const classes = useStyles();
     const [news, setNews] = useState(tempNews);
 
@@ -201,7 +223,30 @@ export default function Demo1Content() {
                                 <div className={EditorStyle['news']}>
                                     {contentFragment.map((item, index) => <span key={index}>{item}</span>)}
                                 </div>
-                                <TextField className={classes.editorField}
+                                <Accordion className={classes.accordion}>
+                                    <AccordionSummary
+                                        className={classes.accordionSummary}
+                                        expandIcon={<ExpandMoreIcon style={{ fill: "white" }} />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
+                                    >
+                                        <Typography className={classes.heading}>修改新聞內容</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <TextField className={classes.editorField}
+                                            id="news"
+                                            multiline
+                                            InputProps={{
+                                                className: classes.editorField
+                                            }}
+                                            value={news}
+                                            onChange={handleClick}
+                                            variant="outlined"
+                                        />
+
+                                    </AccordionDetails>
+                                </Accordion>
+                                {/* <TextField className={classes.editorField}
                                     id="news"
                                     multiline
                                     InputProps={{
@@ -210,7 +255,7 @@ export default function Demo1Content() {
                                     value={news}
                                     onChange={handleClick}
                                     variant="outlined"
-                                />
+                                /> */}
                             </div>
                         </Grid>
                     </Grid>

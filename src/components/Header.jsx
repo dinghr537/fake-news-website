@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { StylesProvider } from '@material-ui/core/styles'
 import { makeStyles } from '@material-ui/core/styles';
+import { useState } from 'react';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton'
 import ExpandLess from '@material-ui/icons/ExpandLess'
@@ -24,6 +25,11 @@ import Link from '@material-ui/core/Link'
 import logoImage from './../res/image/logo.png'
 import HeaderStyle from './../style/Header.module.scss'
 
+const useStyles = makeStyles((theme) => ({
+  paperRoot: {
+    backgroundColor: "#414147",
+  }
+}))
 
 function RouteList() {
   const [state, setState] = React.useState({
@@ -132,7 +138,7 @@ function RouteList() {
 
 
 export default function SwipeableTemporaryDrawer() {
-  // const classes = useStyles();
+  const classes = useStyles();
   const [state, setState] = React.useState({ left: false });
 
   const toggleDrawer = (open) => (event) => {
@@ -178,7 +184,7 @@ export default function SwipeableTemporaryDrawer() {
             onClose={toggleDrawer(false)}
             onOpen={toggleDrawer(true)}
             PaperProps={{
-              className: HeaderStyle['drawer-paper'],
+              className: classes.paperRoot,
             }}
           >
             <RouteList />
