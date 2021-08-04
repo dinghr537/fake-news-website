@@ -20,6 +20,8 @@
     padding-right: 20;
 }
 
+
+
 .content {
     align-items: center;
     // background-color: $main-color;
@@ -46,9 +48,10 @@
 
 .tag-name {
     font-size: 24;
-    width: 15%;
+    width: 20%;
     text-align: center;
     align-self: center;
+    line-break: anywhere;
     // max-width: 15%;
 }
 
@@ -94,6 +97,10 @@
 
 .en {
     color: palevioletred;
+}
+
+.others {
+    color: fuchsia;
 }
 
 

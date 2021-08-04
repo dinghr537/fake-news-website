@@ -49,8 +49,6 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
     },
     editorField: {
-        // width: 600,
-        // maxWidth: "100%",
         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
             borderColor: "rgb(200, 200, 200)",
         },
@@ -63,28 +61,30 @@ const useStyles = makeStyles((theme) => ({
         "& .MuiInputBase-root.Mui-disabled": {
             color: "white",
         },
-        minHeight: "150",
+        minHeight: "200",
         boxSizing: "border-box",
         color: 'white',
         fontSize: "22",
         width: "100%",
         maxWidth: "100%",
         padding: "20 20 20 20",
+        alignItems: "flex-start",
     },
 }))
 
 function TagList(props) {
     const list = [];
-    // console.log(props.tagVariables);
+    const tagCollection = ['num', 'per', 'en', 'loc', 'org'];
     for (const tag in props.tagVariables) {
+        let tagNameWithoutNum = tag.replace(/[0-9]/g, '')
+        let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
         list.push(
             <React.Fragment key={list.length}>
                 <div className={EditorStyle['tag-name']}>
-                    <span className={EditorStyle[tag.replace(/[0-9]/g, '')]}>{tag}:</span>
+                    <span className={EditorStyle[filteredTagName]}>{tag}:</span>
                 </div>
                 <TextField className={props.classes.inputTextField}
                     id={tag}
-                    // label={tag}
                     multiline
                     InputProps={{
                         className: props.classes.input
@@ -92,8 +92,6 @@ function TagList(props) {
                     InputLabelProps={{
                         className: props.classes.label
                     }}
-                    // rows={4}
-                    // defaultValue="ovh cloud"
                     value={props.value[tag]}
                     onChange={props.onChange}
                     variant="outlined"
@@ -113,8 +111,8 @@ export default function Demo1Content() {
     const classes = useStyles();
     const [news, setNews] = useState(tempNews);
 
-    const reG = /<\w*>/g;
-    const re = /(<\w*>)/;
+    const reG = /<[\w-]*>/g;
+    const re = /(<[\w-]*>)/;
 
 
 
@@ -171,13 +169,14 @@ export default function Demo1Content() {
     // }
 
     // contentFragment[2] = "<org0>";
-
+    const tagCollection = ['num', 'per', 'en', 'loc', 'org']
     for (let i = 0; i < contentFragment.length; ++i) {
         console.log(contentFragment[i]);
         if (tagSet.has(contentFragment[i])) {
             let innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1);
-            contentFragment[i] = <span className={EditorStyle[innerTagName.replace(/[0-9]/g, '')]}>{state[innerTagName]}</span>;
-            // console.log(innerTagName);
+            let tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')
+            let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
+            contentFragment[i] = <span className={EditorStyle[filteredTagName]}>{state[innerTagName]}</span>;
         }
     }
 
@@ -202,24 +201,12 @@ export default function Demo1Content() {
                                 <div className={EditorStyle['news']}>
                                     {contentFragment.map((item, index) => <span key={index}>{item}</span>)}
                                 </div>
-                                {/* <div className={EditorStyle['btn-container']}>
-                                    <Button className={classes.button}
-                                        // variant="outlined"
-                                        color="secondary"
-                                        onClick={handleClick}
-                                    >
-                                        修改新聞內容
-                                    </Button>
-                                </div> */}
                                 <TextField className={classes.editorField}
                                     id="news"
-                                    // label="title"
                                     multiline
                                     InputProps={{
                                         className: classes.editorField
                                     }}
-                                    // rows={4}
-                                    // defaultValue="<num> 日美國總統<per0>與英國首相<per1>舉行雙邊會談，"
                                     value={news}
                                     onChange={handleClick}
                                     variant="outlined"
