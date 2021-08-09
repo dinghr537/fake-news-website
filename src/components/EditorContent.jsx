@@ -246,16 +246,6 @@ export default function EditorContent() {
 
                                     </AccordionDetails>
                                 </Accordion>
-                                {/* <TextField className={classes.editorField}
-                                    id="news"
-                                    multiline
-                                    InputProps={{
-                                        className: classes.editorField
-                                    }}
-                                    value={news}
-                                    onChange={handleClick}
-                                    variant="outlined"
-                                /> */}
                             </div>
                         </Grid>
                     </Grid>
