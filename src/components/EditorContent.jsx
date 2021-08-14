@@ -10,6 +10,20 @@ import Typography from '@material-ui/core/Typography';
 import EditorStyle from './../style/Editor.module.scss'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+let a;
+fetch('/_hidden-news-data')
+    .then(response => response.json())
+    .then(json => {
+        console.log(json);
+        console.log("xxx");
+        a = json;
+        console.log("a: ");
+        console.log(a.news);
+        // setState(a.news);
+    })
+    .catch(err => console.log('Request Failed', err));
+
+
 const tempNews = `<num>日美國總統<per0>與英國<en>首相<per1>於<loc0>舉行雙<en2>邊會談，兩人會後發布聯合聲明，<per0>表示支持<org0>...`;
 
 const useStyles = makeStyles((theme) => ({

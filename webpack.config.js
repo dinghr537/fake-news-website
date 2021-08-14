@@ -25,6 +25,7 @@ module.exports = [
             rules: [
                 {
                     test: /\.js|\.jsx$/,
+                    exclude: /node_modules/,
                     use: {
                         loader: 'babel-loader',
                         options: {
@@ -64,36 +65,36 @@ module.exports = [
         ]
     }
 
-    if (index == 0) {
-        config.devServer = {
-            contentBase: path.join(__dirname, 'dist'),
-            compress: true,
-            port: 4000,
-            setup(app) {
+    //     if (index == 0) {
+    //         config.devServer = {
+    //             contentBase: path.join(__dirname, 'dist'),
+    //             compress: true,
+    //             port: 4000,
+    //             setup(app) {
 
-                let express = require('express');
-                app.use(express.json());
-                app.use(express.urlencoded());
+    //                 let express = require('express');
+    //                 app.use(express.json());
+    //                 app.use(express.urlencoded());
 
-                app.get("/get/some-data", function (req, res) {
-                    console.log(req);
-                    res.send("GET res sent from webpack dev server")
-                })
+    //                 app.get("/get/some-data", function (req, res) {
+    //                     console.log(req);
+    //                     res.send("GET res sent from webpack dev server")
+    //                 })
 
-                app.post("/post/some-data", express.json(), function (req, res) {
-                    console.log(req.body);
-                    res.send({
-                        content: "好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
-好啊好啊好啊好啊好啊好啊，好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
-好啊好啊好啊好啊好啊好啊好。啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
-好啊好啊好啊好啊好啊好啊好啊好，啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
-好啊好啊好啊好啊好啊好啊好啊好啊好。啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
-好啊好啊好啊好啊好啊好啊好啊好啊好啊好，啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
-好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好。啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊" })
-                })
-            }
-        }
-    }
+    //                 app.post("/post/some-data", express.json(), function (req, res) {
+    //                     console.log(req.body);
+    //                     res.send({
+    //                         content: "好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
+    // 好啊好啊好啊好啊好啊好啊，好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
+    // 好啊好啊好啊好啊好啊好啊好。啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
+    // 好啊好啊好啊好啊好啊好啊好啊好，啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
+    // 好啊好啊好啊好啊好啊好啊好啊好啊好。啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
+    // 好啊好啊好啊好啊好啊好啊好啊好啊好啊好，啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊\
+    // 好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好。啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊好啊" })
+    //                 })
+    //             }
+    //         }
+    //     }
 
     return config;
 });
