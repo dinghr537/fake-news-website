@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,18 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import EditorStyle from './../style/Editor.module.scss'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-let a;
-fetch('/_hidden-news-data')
-    .then(response => response.json())
-    .then(json => {
-        console.log(json);
-        console.log("xxx");
-        a = json;
-        console.log("a: ");
-        console.log(a.news);
-        // setState(a.news);
-    })
-    .catch(err => console.log('Request Failed', err));
+
 
 
 const tempNews = `<num>日美國總統<per0>與英國<en>首相<per1>於<loc0>舉行雙<en2>邊會談，兩人會後發布聯合聲明，<per0>表示支持<org0>...`;
@@ -150,12 +140,36 @@ export default function EditorContent() {
     const reG = /<[\w-]*>/g;
     const re = /(<[\w-]*>)/;
 
-
+    let x = 1;
+    useEffect(() => {
+        let a;
+        fetch('/_hidden-news-data')
+            .then(response => response.json())
+            .then(json => {
+                // console.log(json);
+                // console.log("xxx");
+                setNews(json.news);
+                // set state
+                let tags = json.news.match(reG);
+                let tagSet = new Set(tags);
+                let contentFragment = json.news.split(re);
+                const arrFromSet = Array.from(tagSet);
+                // console.log(`tagSet in useEffect fetch: ${arrFromSet}`);
+                let tempState = {};
+                for (const tag of tagSet) {
+                    let innerTag = tag.substring(1, tag.length - 1)
+                    tempState[innerTag] = innerTag;
+                }
+                setState(tempState);
+                // done
+            })
+            .catch(err => console.log('Request Failed', err));
+    }, [x]);
 
     let tags = news.match(reG);
     let tagSet = new Set(tags);
     let contentFragment = news.split(re);
-    console.log(tagSet);
+    // console.log(tagSet);
     // const arrFromSet = Array.from(tagSet);
     let tempState = {};
     for (const tag of tagSet) {
@@ -175,22 +189,22 @@ export default function EditorContent() {
 
 
     function handleClick(event) {
-        console.log(news);
+        // console.log(news);
         setNews(event.target.value);
         let syncNews = event.target.value;
         tags = syncNews.match(reG);
         tagSet = new Set(tags);
-        console.log(syncNews);
+        // console.log(syncNews);
         contentFragment = syncNews.split(re);
         tempState = {};
         for (const tag of tagSet) {
             let innerTag = tag.substring(1, tag.length - 1)
             tempState[innerTag] = innerTag;
         }
-        console.log(tempState);
+        // console.log(tempState);
         const keys = Object.keys(tempState);
         Object.assign(tempState, state);
-        console.log(tempState);
+        // console.log(tempState);
         Object.keys(tempState)
             .filter(key => !keys.includes(key))
             .forEach(key => delete tempState[key]);
@@ -207,7 +221,7 @@ export default function EditorContent() {
     // contentFragment[2] = "<org0>";
     const tagCollection = ['num', 'per', 'en', 'loc', 'org']
     for (let i = 0; i < contentFragment.length; ++i) {
-        console.log(contentFragment[i]);
+        // console.log(contentFragment[i]);
         if (tagSet.has(contentFragment[i])) {
             let innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1);
             let tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')

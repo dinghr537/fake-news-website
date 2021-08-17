@@ -95,6 +95,7 @@ export default function FakeNews() {
     const [output, setOutput] = useState("");
     const [targetLength, setTargetLength] = useState(300);
     const [row, setRow] = useState(6);
+    // let receivedNews = "";
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -142,10 +143,10 @@ export default function FakeNews() {
 
     function handleClick() {
         alert("click");
-        console.log(title);
-        console.log(content);
-        console.log(numberBackup(topK, 5));
-        console.log(numberBackup(targetLength, 300));
+        // console.log(title);
+        // console.log(content);
+        // console.log(numberBackup(topK, 5));
+        // console.log(numberBackup(targetLength, 300));
         fetch('/post/some-data', {
             method: 'POST',
             headers: {
@@ -167,6 +168,21 @@ export default function FakeNews() {
 
     }
 
+    function editInAnotherPage(event) {
+        alert("going");
+        // console.log(output);
+        fetch('/post/_news-data', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                news: output
+            })
+        })
+        window.location.href = '/newsEditor.html';
+    }
 
 
     return (
@@ -429,9 +445,15 @@ export default function FakeNews() {
                         onChange={handleOutput}
                         variant="outlined"
                     />
-                    {/* <div className={DemoStyle['output-content']} id={"output-content"}>
-
-                </div> */}
+                    <div className={DemoStyle['btn-container']}>
+                        <Button className={classes.button}
+                            // variant="outlined"
+                            color="secondary"
+                            onClick={editInAnotherPage}
+                        >
+                            編輯新聞
+                        </Button>
+                    </div>
                 </div>
 
 
