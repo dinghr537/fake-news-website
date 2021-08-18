@@ -1,20 +1,19 @@
 import React from 'react'
 import { useEffect } from 'react';
+import { useState } from 'react';
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from "@material-ui/core/styles";
-import { useState } from 'react';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import EditorStyle from './../style/Editor.module.scss'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import EditorStyle from './../style/Editor.module.scss'
 
 
-
-const tempNews = `<num>日美國總統<per0>與英國<en>首相<per1>於<loc0>舉行雙<en2>邊會談，兩人會後發布聯合聲明，<per0>表示支持<org0>...`;
+// const tempNews = `<num>日美國總統<per0>與英國<en>首相<per1>於<loc0>舉行雙<en2>邊會談，兩人會後發布聯合聲明，<per0>表示支持<org0>...`;
 
 const useStyles = makeStyles((theme) => ({
     inputTextField: {
@@ -134,27 +133,37 @@ function TagList(props) {
 }
 
 export default function EditorContent() {
+    /*
+     * news:    fake news content
+     * state:   user defined content for each tag
+     * syncState:   We can directly use syncState when state hasn't been updated (cuz state is asynchronous)
+     * permanentValue:  make sure useEffect will only execute once
+     * useEffect:
+     *   fetch: get fake news data
+     *   then:  transfer to json format
+     *   then:  update the news (setNews)
+     *          find all the tags in the given fake news -> tags
+     *          eliminate redundant tags -> tagSet
+     *          split the fake news with tags to get a list of contents -> contentFragment
+     *          cut the '<'/'>' of tags
+     *          update the state (setState)
+     *
+     */
     const classes = useStyles();
-    const [news, setNews] = useState(tempNews);
+    const [news, setNews] = useState("");
 
     const reG = /<[\w-]*>/g;
     const re = /(<[\w-]*>)/;
 
-    let x = 1;
+    const permanentValue = 1;
     useEffect(() => {
-        let a;
         fetch('/_hidden-news-data')
             .then(response => response.json())
             .then(json => {
-                // console.log(json);
-                // console.log("xxx");
                 setNews(json.news);
-                // set state
                 let tags = json.news.match(reG);
                 let tagSet = new Set(tags);
-                let contentFragment = json.news.split(re);
-                const arrFromSet = Array.from(tagSet);
-                // console.log(`tagSet in useEffect fetch: ${arrFromSet}`);
+                contentFragment = json.news.split(re);
                 let tempState = {};
                 for (const tag of tagSet) {
                     let innerTag = tag.substring(1, tag.length - 1)
@@ -164,64 +173,56 @@ export default function EditorContent() {
                 // done
             })
             .catch(err => console.log('Request Failed', err));
-    }, [x]);
+    }, [permanentValue]);
 
+    // same code with useEffect, useful when didn't get anything
     let tags = news.match(reG);
     let tagSet = new Set(tags);
     let contentFragment = news.split(re);
-    // console.log(tagSet);
-    // const arrFromSet = Array.from(tagSet);
     let tempState = {};
     for (const tag of tagSet) {
         let innerTag = tag.substring(1, tag.length - 1)
         tempState[innerTag] = innerTag;
     }
-    // console.log("===============");
-    // console.log(tempState);
 
-    const [state, setState] = React.useState(tempState);
+    const [state, setState] = React.useState({});
     let syncState = state;
 
     function handleTagChange(event) {
-        // console.log(event);
         setState({ ...state, [event.target.id]: [event.target.value] });
     }
 
 
-    function handleClick(event) {
-        // console.log(news);
+    function handleEdit(event) {
+        /*
+         * update news with new content (setNews)
+         * split the fake news and edit tags
+         * assign previous state to the new state
+         * update state (setState)
+         */
         setNews(event.target.value);
         let syncNews = event.target.value;
         tags = syncNews.match(reG);
         tagSet = new Set(tags);
-        // console.log(syncNews);
         contentFragment = syncNews.split(re);
         tempState = {};
         for (const tag of tagSet) {
             let innerTag = tag.substring(1, tag.length - 1)
             tempState[innerTag] = innerTag;
         }
-        // console.log(tempState);
+
         const keys = Object.keys(tempState);
         Object.assign(tempState, state);
-        // console.log(tempState);
         Object.keys(tempState)
             .filter(key => !keys.includes(key))
             .forEach(key => delete tempState[key]);
         setState(tempState);
         syncState = tempState;
     }
-    // let tagVariables = {
-    //     num: 155,
-    //     per0: "Rex",
-    //     org0: "WHO",
-    //     per1: "BCP",
-    // }
 
-    // contentFragment[2] = "<org0>";
+    // warp the tags with 'span' tag and their corresponding classes
     const tagCollection = ['num', 'per', 'en', 'loc', 'org']
     for (let i = 0; i < contentFragment.length; ++i) {
-        // console.log(contentFragment[i]);
         if (tagSet.has(contentFragment[i])) {
             let innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1);
             let tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')
@@ -268,7 +269,7 @@ export default function EditorContent() {
                                                 className: classes.editorField
                                             }}
                                             value={news}
-                                            onChange={handleClick}
+                                            onChange={handleEdit}
                                             variant="outlined"
                                         />
 
