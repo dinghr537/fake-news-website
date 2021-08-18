@@ -137,6 +137,17 @@
 
 }
 
+.news {
+    color: white;
+    font-size: 22;
+    padding: 20 20 20 20;
+    max-width: 100%;
+    word-break: break-all;
+    border: 1px solid white;
+    border-radius: 5px;
+    min-height: 200px;
+}
+
 .org {
     color: red;
     display: inline;
@@ -162,6 +173,9 @@
     display: inline;
 }
 
+.others {
+    color: fuchsia;
+}
 
 
 // div.input-title-text > div {

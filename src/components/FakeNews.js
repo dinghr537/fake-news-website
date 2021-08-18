@@ -3,15 +3,13 @@ import { useState } from 'react';
 import Popover from '@material-ui/core/Popover';
 import TextField from '@material-ui/core/TextField';
 import { StylesProvider } from '@material-ui/core/styles';
-import DemoStyle from './../style/Demo.module.scss'
 import Button from '@material-ui/core/Button';
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import { keys } from '@material-ui/core/styles/createBreakpoints';
 import HelpIcon from '@material-ui/icons/Help';
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
+import DemoStyle from './../style/Demo.module.scss'
 import HeaderStyle from './../style/Header.module.scss'
 
 const useStyles = makeStyles((theme) => ({
@@ -92,14 +90,28 @@ export default function FakeNews() {
     const [title, setTitle] = useState('<num> 日美國總統<per0>與英國首相<per1>舉行雙邊會談，');
     const [content, setContent] = useState('兩人會後發布聯合聲明，<per0>表示支持<org0>...');
     const [topK, setTopK] = useState(5);
-    const [output, setOutput] = useState("");
+    const [output, setOutput] = useState(["尚無輸出。。。"]);
+    const [plainNews, setPlainNews] = useState("");
     const [targetLength, setTargetLength] = useState(300);
     const [row, setRow] = useState(6);
-    // let receivedNews = "";
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
+
+    let initNews = "尚無輸出嘿";
+    const reG = /<[\w-]*>/g;
+    const re = /(<[\w-]*>)/;
+    let tags = initNews.match(reG);
+    let tagSet = new Set(tags);
+    let contentFragment = initNews.split(re);
+    let tempState = {};
+    for (const tag of tagSet) {
+        let innerTag = tag.substring(1, tag.length - 1)
+        tempState[innerTag] = innerTag;
+    }
+    const [state, setState] = React.useState(tempState);
+    let syncState = state;
 
     const handleAnchorOn = (event) => {
         setAnchorEl(event.currentTarget);
@@ -161,9 +173,27 @@ export default function FakeNews() {
             })
         }).then(response => response.json())
             .then(myJson => {
-                setOutput(myJson.content);
-                // setRow("");
-                // console.log(myJson.content.length);
+                setPlainNews(myJson.content);
+                // ready to deal with news data
+                let syncNews = myJson.content
+                tags = syncNews.match(reG);
+                tagSet = new Set(tags);
+                // console.log(syncNews);
+                contentFragment = syncNews.split(re);
+                const tagCollection = ['num', 'per', 'en', 'loc', 'org']
+                for (let i = 0; i < contentFragment.length; ++i) {
+                    // console.log(contentFragment[i]);
+                    if (tagSet.has(contentFragment[i])) {
+                        let innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1);
+                        let tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')
+                        let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
+                        contentFragment[i] = <span className={DemoStyle[filteredTagName]}>{innerTagName}</span>;
+                    }
+                }
+                // debug
+                console.log(contentFragment);
+                setOutput(contentFragment);
+                // done
             })
 
     }
@@ -178,7 +208,7 @@ export default function FakeNews() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                news: output
+                news: plainNews
             })
         })
         window.location.href = '/newsEditor.html';
@@ -429,7 +459,7 @@ export default function FakeNews() {
                     <h3 className={DemoStyle['output-title-h3']}>
                         News Output:
                     </h3>
-                    <TextField className={classes.input}
+                    {/* <TextField className={classes.input}
                         id="content-of-output"
                         // label="some contents"
                         disabled
@@ -444,7 +474,10 @@ export default function FakeNews() {
                         value={output}
                         onChange={handleOutput}
                         variant="outlined"
-                    />
+                    /> */}
+                    <div className={DemoStyle['news']}>
+                        {output.map((item, index) => <span key={index}>{item}</span>)}
+                    </div>
                     <div className={DemoStyle['btn-container']}>
                         <Button className={classes.button}
                             // variant="outlined"
