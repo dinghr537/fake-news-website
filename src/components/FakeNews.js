@@ -61,13 +61,10 @@ const useStyles = makeStyles((theme) => ({
         color: 'white',
         fontSize: "24",
         paddingTop: 40,
-        // paddingBottom: 50,
-        // paddingLeft: 30,
     },
     KVInput: {
         color: 'white',
         fontSize: "24",
-        // width: 150,
     },
     button: {
         backgroundColor: '#3c52b2',
@@ -86,32 +83,43 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function FakeNews() {
+    /*
+     *
+     * title:       title content (input)
+     * content:     part of the content (input)
+     * topK:        topK (input)
+     * targetLength: targetLength (input)
+     * output:      output fake news for display (output)
+     * plainNews:   output fake news -> Plain Text (output)
+     * anchorEl:    object needed for material design's popover
+     * open:        indicate popover's state
+     * id:          object needed for material design's popover
+     *
+     * fallBackNews:    If there's no fake news, fallBackNews will be displayed.
+     * tags:            find all the tags in the given fake news
+     * tagSet:          eliminate redundant tags
+     * contentFragment: split the fake news with tags to get a list of contents
+     * * * for example: "<per0>xxx<loc0>yyy" -> [ '', '<per0>', 'xxx', '<loc0>', 'yyy' ]
+     *
+     */
     const classes = useStyles();
     const [title, setTitle] = useState('<num> 日美國總統<per0>與英國首相<per1>舉行雙邊會談，');
     const [content, setContent] = useState('兩人會後發布聯合聲明，<per0>表示支持<org0>...');
     const [topK, setTopK] = useState(5);
+    const [targetLength, setTargetLength] = useState(300);
     const [output, setOutput] = useState(["尚無輸出。。。"]);
     const [plainNews, setPlainNews] = useState("");
-    const [targetLength, setTargetLength] = useState(300);
-    const [row, setRow] = useState(6);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
-    let initNews = "尚無輸出嘿";
+    let fallBackNews = "尚無輸出";
     const reG = /<[\w-]*>/g;
     const re = /(<[\w-]*>)/;
-    let tags = initNews.match(reG);
+    let tags = fallBackNews.match(reG);
     let tagSet = new Set(tags);
-    let contentFragment = initNews.split(re);
-    let tempState = {};
-    for (const tag of tagSet) {
-        let innerTag = tag.substring(1, tag.length - 1)
-        tempState[innerTag] = innerTag;
-    }
-    const [state, setState] = React.useState(tempState);
-    let syncState = state;
+    let contentFragment = fallBackNews.split(re);
 
     const handleAnchorOn = (event) => {
         setAnchorEl(event.currentTarget);
@@ -129,20 +137,12 @@ export default function FakeNews() {
         setContent(event.target.value);
     }
 
-    function handleOutput(event) {
-        setOutput(event.target.value);
-    }
-
     function handleTopK(event) {
         setTopK(event.target.value);
     }
 
     function handleTargetLength(event) {
         setTargetLength(event.target.value);
-    }
-
-    function handleRow(event) {
-        setRow(event.target.value);
     }
 
     function numberBackup(number, defaultNum) {
@@ -153,12 +153,18 @@ export default function FakeNews() {
     }
 
 
-    function handleClick() {
-        alert("click");
-        // console.log(title);
-        // console.log(content);
-        // console.log(numberBackup(topK, 5));
-        // console.log(numberBackup(targetLength, 300));
+    function handleClickGenerate() {
+        /*
+         * fetch:   First start a post request with proper parameters in the request body.
+         * then:    After getting the response, transfer it to the json format.
+         * then:    update the plainNews (setPlainNews)
+         *          find all the tags in the given fake news -> tags
+         *          eliminate redundant tags -> tagSet
+         *          split the fake news with tags to get a list of contents -> contentFragment
+         *          warp the tags with 'span' tag and their corresponding classes
+         *          update the output (setOutput)
+         */
+        alert("start to generate fake news");
         fetch('/post/some-data', {
             method: 'POST',
             headers: {
@@ -171,18 +177,16 @@ export default function FakeNews() {
                 topK: numberBackup(topK, 5),
                 targetLength: numberBackup(targetLength, 300),
             })
-        }).then(response => response.json())
+        })
+            .then(response => response.json())
             .then(myJson => {
                 setPlainNews(myJson.content);
-                // ready to deal with news data
-                let syncNews = myJson.content
-                tags = syncNews.match(reG);
+                tags = myJson.content.match(reG);
                 tagSet = new Set(tags);
-                // console.log(syncNews);
-                contentFragment = syncNews.split(re);
+                contentFragment = myJson.content.split(re);
+
                 const tagCollection = ['num', 'per', 'en', 'loc', 'org']
                 for (let i = 0; i < contentFragment.length; ++i) {
-                    // console.log(contentFragment[i]);
                     if (tagSet.has(contentFragment[i])) {
                         let innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1);
                         let tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')
@@ -190,17 +194,17 @@ export default function FakeNews() {
                         contentFragment[i] = <span className={DemoStyle[filteredTagName]}>{innerTagName}</span>;
                     }
                 }
-                // debug
-                console.log(contentFragment);
                 setOutput(contentFragment);
-                // done
             })
 
     }
 
-    function editInAnotherPage(event) {
+    function editInAnotherPage() {
+        /*
+         * Post the fake news to the server.
+         * Then jump to the editor page.
+         */
         alert("going");
-        // console.log(output);
         fetch('/post/_news-data', {
             method: 'POST',
             headers: {
@@ -224,13 +228,10 @@ export default function FakeNews() {
 
                         <TextField className={classes.input}
                             id="title-of-news"
-                            // label="title"
                             multiline
                             InputProps={{
                                 className: classes.input
                             }}
-                            // rows={4}
-                            // defaultValue="<num> 日美國總統<per0>與英國首相<per1>舉行雙邊會談，"
                             value={title}
                             onChange={handleTitle}
                             variant="outlined"
@@ -242,20 +243,16 @@ export default function FakeNews() {
                     <div className={DemoStyle['input-title-div']}>
                         <TextField className={classes.input}
                             id="content-of-news"
-                            // label="some contents"
                             multiline
                             InputProps={{
                                 className: classes.input
                             }}
-                            // rows={4}
-                            // defaultValue="兩人會後發布聯合聲明，<per0>表示支持<org0>..."
                             value={content}
                             onChange={handleContent}
                             variant="outlined"
                         />
                     </div>
                     <div className={classes.inputNumberContainer} noValidate>
-                        {/* <p> Top K </p> */}
                         <div>
                             <TextField
                                 id="top-k"
@@ -278,7 +275,6 @@ export default function FakeNews() {
                                 }}
                                 variant="outlined"
                             />
-                            {/* popover test */}
                             <IconButton aria-label="more" onClick={handleAnchorOn}>
                                 <HelpIcon className={HeaderStyle['list-item-icon']} />
                             </IconButton>
@@ -428,13 +424,11 @@ export default function FakeNews() {
                     </div>
                     <div>
 
-
                     </div>
                     <div className={DemoStyle['btn-container']}>
                         <Button className={classes.button}
-                            // variant="outlined"
                             color="secondary"
-                            onClick={handleClick}
+                            onClick={handleClickGenerate}
                         >
                             生成新聞
                         </Button>
@@ -456,25 +450,10 @@ export default function FakeNews() {
                         <p className={DemoStyle['num']}>num ➜ N &nbsp;</p>
                         <p className={DemoStyle['en']}>en ➜ E &nbsp;</p>
                     </div>
+
                     <h3 className={DemoStyle['output-title-h3']}>
                         News Output:
                     </h3>
-                    {/* <TextField className={classes.input}
-                        id="content-of-output"
-                        // label="some contents"
-                        disabled
-                        multiline
-                        InputProps={{
-                            className: classes.input,
-                            rowsMin: 4
-                        }}
-                        // rows={row}
-                        placeholder={"尚無輸出"}
-                        // defaultValue="兩人會後發布聯合聲明，<per0>表示支持<org0>..."
-                        value={output}
-                        onChange={handleOutput}
-                        variant="outlined"
-                    /> */}
                     <div className={DemoStyle['news']}>
                         {output.map((item, index) => <span key={index}>{item}</span>)}
                     </div>
