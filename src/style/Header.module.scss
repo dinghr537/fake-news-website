@@ -4,6 +4,8 @@
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.7)),
     url("../res/image/header_footer_background.jpg");
   display: grid;
+  // we're using 36px for the icon cuz the size of the content is 24(width) + 12*2(padding) - 12(edgeStart margin)
+  grid-template-columns: 36px 100px 36px;
   grid-template-areas: 'icon logo .';
   justify-content: space-between;
 }
@@ -11,7 +13,10 @@
 
 .menu-icon {
   grid-area: 'icon';
-  background-color: rgba($color: #424242, $alpha: 0.8);
+  background-color: rgba($color: #424242, $alpha: 0.7);
+  &:hover {
+    background-color: rgba($color: #424242, $alpha: 0.9);
+  }
 }
 
 .logo-link {
@@ -20,6 +25,7 @@
   justify-self: center;
 
   .logo {
+    justify-self: center;
     height: auto;
     width: 100px;
   }
