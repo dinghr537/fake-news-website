@@ -1,12 +1,11 @@
 @import './Variable.module';
-.footerbackground {
+.footer-background {
     display: flex;
     justify-content: center;
     padding: 20px 0px 20px 0px;
     height: 80px;
-    // background-color: black;
     background-image: linear-gradient(to top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.9)),
-    url(https://i.imgur.com/t4a1Tmq.jpg);
+    url("../res/image/header_footer_background.jpg");
     width: 100%;
     color: #fff;
 }

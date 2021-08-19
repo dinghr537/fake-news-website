@@ -4,7 +4,7 @@ import logoImage from './../res/image/logo.png'
 
 export default function Footer() {
     return (
-        <div className={FooterStyle['footerbackground']}>
+        <div className={FooterStyle['footer-background']}>
             <img className={FooterStyle['logo']}
                 src={logoImage} />
         </div>
