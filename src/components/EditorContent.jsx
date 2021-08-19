@@ -100,7 +100,15 @@ const useStyles = makeStyles((theme) => ({
 function TagList(props) {
     const list = [];
     const tagCollection = ['num', 'per', 'en', 'loc', 'org'];
-    for (const tag in props.tagVariables) {
+    const orderedTagVariables = Object.keys(props.tagVariables).sort().reduce(
+        (obj, key) => {
+            obj[key] = props.tagVariables[key];
+            return obj;
+        },
+        {}
+    );
+    for (const tag in orderedTagVariables) {
+        console.log(tag);
         let tagNameWithoutNum = tag.replace(/[0-9]/g, '')
         let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
         list.push(
