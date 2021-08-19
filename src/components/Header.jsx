@@ -19,6 +19,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import TouchAppIcon from '@material-ui/icons/TouchApp';
 import StorageIcon from '@material-ui/icons/Storage';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+import EditIcon from '@material-ui/icons/Edit';
 import Toolbar from '@material-ui/core/Toolbar'
 import Link from '@material-ui/core/Link'
 
@@ -127,6 +128,18 @@ function RouteList() {
               <LibraryBooksIcon className={HeaderStyle['list-item-icon']} />
             </ListItemIcon>
             Method
+          </ListItem>
+        </Link>
+
+        <Link
+          className={HeaderStyle['list-item-text']}
+          href={`newsEditor.html`} // public url later
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <EditIcon className={HeaderStyle['list-item-icon']} />
+            </ListItemIcon>
+            Editor
           </ListItem>
         </Link>
 
