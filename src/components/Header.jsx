@@ -46,12 +46,15 @@ function RouteList() {
   }
 
   return (
+    /**
+     * list of entries in the navigation bar: home, demo, data, method, editor
+     */
     <div role="presentation">
       <List className={HeaderStyle['list']}>
 
         <Link
           className={HeaderStyle['list-item-text']}
-          href={`home.html`} // public url later
+          href={`home.html`}
         >
           <ListItem button>
             <ListItemIcon>
@@ -109,7 +112,7 @@ function RouteList() {
 
         <Link
           className={HeaderStyle['list-item-text']}
-          href={`data.html`} //TODO:  public url later
+          href={`data.html`}
         >
           <ListItem button>
             <ListItemIcon>
@@ -121,7 +124,7 @@ function RouteList() {
 
         <Link
           className={HeaderStyle['list-item-text']}
-          href={`method.html`} // public url later
+          href={`method.html`}
         >
           <ListItem button>
             <ListItemIcon>
@@ -133,7 +136,7 @@ function RouteList() {
 
         <Link
           className={HeaderStyle['list-item-text']}
-          href={`newsEditor.html`} // public url later
+          href={`newsEditor.html`}
         >
           <ListItem button>
             <ListItemIcon>
