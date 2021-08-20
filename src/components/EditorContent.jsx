@@ -98,6 +98,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function TagList(props) {
+    /**
+     * input needed: tagVariables -> States with {tag: tagContent}
+     *               classes -> css from makeStyle
+     *               value -> tags' value
+     *               onChange -> handleTagChange
+     */
     const list = [];
     const tagCollection = ['num', 'per', 'en', 'loc', 'org'];
     const orderedTagVariables = Object.keys(props.tagVariables).sort().reduce(
