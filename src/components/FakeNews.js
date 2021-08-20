@@ -165,7 +165,7 @@ export default function FakeNews() {
          *          update the output (setOutput)
          */
         alert("start to generate fake news");
-        fetch('/post/some-data', {
+        fetch('/post/_generate-fake-news', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

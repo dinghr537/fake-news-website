@@ -35,7 +35,7 @@ app.post("/post/_news-data", express.json(), function (req, res) {
     }
 })
 
-app.post("/post/some-data", express.json(), function (req, res) {
+app.post("/post/_generate-fake-news", express.json(), function (req, res) {
     console.log(req.body);
     res.send({
         content: "<num>日美國yyy總統<per0>與英國<en>首相<per1>於<loc0>舉行雙<en2>邊會談，兩人會後發布聯合聲明，<per0>表示支持<org0>..."
