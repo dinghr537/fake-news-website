@@ -48,6 +48,8 @@ function RouteList() {
   return (
     /**
      * list of entries in the navigation bar: home, demo, data, method, editor
+     *
+     * 
      */
     <div role="presentation">
       <List className={HeaderStyle['list']}>
@@ -167,6 +169,15 @@ export default function SwipeableTemporaryDrawer() {
 
 
   return (
+    /**
+     * Structure:
+     * StylesProvider
+     * | Toolbar
+     * | | IconButton (menu bar)
+     * | | Link (LAB's logo)
+     * | | SwipeableDrawer
+     *
+     */
     <div>
       <CssBaseline />
       <StylesProvider injectFirst>
