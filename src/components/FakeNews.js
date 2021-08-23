@@ -496,7 +496,7 @@ export default function FakeNews() {
 
             <div className={DemoStyle['IO-container']}>
                 <div className={DemoStyle['output-title']}>
-                    <h3 className={DemoStyle['output-title-h3']}>
+                    {/* <h3 className={DemoStyle['output-title-h3']}>
                         Type of Tags:
                     </h3>
                     <div className={DemoStyle['output-title-desc']}>
@@ -505,7 +505,7 @@ export default function FakeNews() {
                         <p className={DemoStyle['loc']}>loc ➜ L &nbsp;</p>
                         <p className={DemoStyle['num']}>num ➜ N &nbsp;</p>
                         <p className={DemoStyle['en']}>en ➜ E &nbsp;</p>
-                    </div>
+                    </div> */}
 
                     <h3 className={DemoStyle['output-title-h3']}>
                         News Output:
