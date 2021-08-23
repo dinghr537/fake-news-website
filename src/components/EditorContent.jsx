@@ -252,10 +252,12 @@ export default function EditorContent() {
                     <Grid
                         className={EditorStyle['content']}
                         container
+                        alignItems="flex-start"
                     >
                         <Grid
                             className={EditorStyle['content-signature']}
-                            item xs={12} sm={8} md={5} lg={4} xl={3}>
+                            item xs={12} sm={8} md={5} lg={4} xl={3}
+                        >
                             <TagList tagVariables={syncState} classes={classes} value={state} onChange={handleTagChange} />
                         </Grid>
                         <Grid
