@@ -109,6 +109,7 @@ export default function FakeNews() {
     const [targetLength, setTargetLength] = useState(300);
     const [output, setOutput] = useState(["尚無輸出。。。"]);
     const [plainNews, setPlainNews] = useState("");
+    const [buttonClickable, setButtonClickable] = useState(true);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -164,7 +165,9 @@ export default function FakeNews() {
          *          warp the tags with 'span' tag and their corresponding classes
          *          update the output (setOutput)
          */
-        alert("start to generate fake news");
+        setButtonClickable(false);
+        // alert("start to generate fake news");
+        console.log(buttonClickable);
         fetch('/post/_generate-fake-news', {
             method: 'POST',
             headers: {
@@ -195,6 +198,7 @@ export default function FakeNews() {
                     }
                 }
                 setOutput(contentFragment);
+                setButtonClickable(true);
             })
 
     }
@@ -429,6 +433,7 @@ export default function FakeNews() {
                         <Button className={classes.button}
                             color="secondary"
                             onClick={handleClickGenerate}
+                            disabled={!buttonClickable}
                         >
                             生成新聞
                         </Button>
