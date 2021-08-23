@@ -39,7 +39,7 @@ app.post("/post/_generate-fake-news", express.json(), function (req, res) {
     console.log(req.body);
     // manually delay
     let x = 13;
-    for (let i = 1; i < 1000000000; i++) {
+    for (let i = 1; i < 8000000000; i++) {
         x = i + 24;
     }
     res.send({

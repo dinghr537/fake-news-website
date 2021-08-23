@@ -8,9 +8,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import HelpIcon from '@material-ui/icons/Help';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import DemoStyle from './../style/Demo.module.scss'
 import HeaderStyle from './../style/Header.module.scss'
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -110,6 +116,8 @@ export default function FakeNews() {
     const [output, setOutput] = useState(["尚無輸出。。。"]);
     const [plainNews, setPlainNews] = useState("");
     const [buttonClickable, setButtonClickable] = useState(true);
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [generateFinishSnackbarOpen, setGenerateFinishSnackbarOpen] = React.useState(false);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -146,6 +154,20 @@ export default function FakeNews() {
         setTargetLength(event.target.value);
     }
 
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
+
+    const handleGenerateFinishSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setGenerateFinishSnackbarOpen(false);
+    };
+
     function numberBackup(number, defaultNum) {
         if (isNaN(number) || number === "")
             return defaultNum;
@@ -166,6 +188,7 @@ export default function FakeNews() {
          *          update the output (setOutput)
          */
         setButtonClickable(false);
+        setSnackbarOpen(true);
         // alert("start to generate fake news");
         console.log(buttonClickable);
         fetch('/post/_generate-fake-news', {
@@ -199,6 +222,8 @@ export default function FakeNews() {
                 }
                 setOutput(contentFragment);
                 setButtonClickable(true);
+                setSnackbarOpen(false);
+                setGenerateFinishSnackbarOpen(true);
             })
 
     }
@@ -225,6 +250,32 @@ export default function FakeNews() {
 
     return (
         <StylesProvider injectFirst>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left"
+                }}
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+            >
+                <Alert onClose={handleSnackbarClose} severity="info">
+                    假新聞生成中
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left"
+                }}
+                open={generateFinishSnackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleGenerateFinishSnackbarClose}
+            >
+                <Alert onClose={handleGenerateFinishSnackbarClose} severity="success">
+                    假新聞生成成功
+                </Alert>
+            </Snackbar>
             <div className={DemoStyle['IO-container']}>
                 <div className={DemoStyle['input-title']}>
                     <h3 className={DemoStyle['input-title-h3']}>新聞標題:</h3>
