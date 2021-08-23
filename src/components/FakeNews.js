@@ -188,6 +188,7 @@ export default function FakeNews() {
          *          update the output (setOutput)
          */
         setButtonClickable(false);
+        setGenerateFinishSnackbarOpen(false);
         setSnackbarOpen(true);
         // alert("start to generate fake news");
         console.log(buttonClickable);
