@@ -106,7 +106,7 @@ function TagList(props) {
      */
     const list = [];
     const tagCollection = ['num', 'per', 'en', 'loc', 'org'];
-    const orderedTagVariables = Object.keys(props.tagVariables).sort().reduce(
+    const orderedTagVariables = Object.keys(props.tagVariables).sort(new Intl.Collator('en', { numeric: true, sensitivity: 'accent' }).compare).reduce(
         (obj, key) => {
             obj[key] = props.tagVariables[key];
             return obj;
