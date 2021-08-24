@@ -116,11 +116,14 @@ function TagList(props) {
     for (const tag in orderedTagVariables) {
         console.log(tag);
         let tagNameWithoutNum = tag.replace(/[0-9]/g, '')
-        let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
+        if (!tagCollection.includes(tagNameWithoutNum)) {
+            continue;
+        }
+        // let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
         list.push(
             <React.Fragment key={list.length}>
                 <div className={EditorStyle['tag-name']}>
-                    <span className={EditorStyle[filteredTagName]}>{tag}:</span>
+                    <span className={EditorStyle[tagNameWithoutNum]}>{tag}:</span>
                 </div>
                 <TextField className={props.classes.inputTextField}
                     id={tag}
@@ -240,8 +243,12 @@ export default function EditorContent() {
         if (tagSet.has(contentFragment[i])) {
             let innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1);
             let tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')
-            let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
-            contentFragment[i] = <span className={EditorStyle[filteredTagName]}>{state[innerTagName]}</span>;
+            if (tagCollection.includes(tagNameWithoutNum)) {
+                // let filteredTagName = tagNameWithoutNum;
+                contentFragment[i] = <span className={EditorStyle[tagNameWithoutNum]}>{state[innerTagName]}</span>;
+            }
+            // let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
+            // contentFragment[i] = <span className={EditorStyle[filteredTagName]}>{state[innerTagName]}</span>;
         }
     }
 
