@@ -106,5 +106,23 @@
     color: fuchsia;
 }
 
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: rgb(30, 30, 30);
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: rgb(100, 100, 100);
+    border-radius: 20px;
+    border: 2px solid rgb(30, 30, 30);
+  }
 
-
+/* Works on Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: rgb(100, 100, 100) rgb(30, 30, 30);
+  }
