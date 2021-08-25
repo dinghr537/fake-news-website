@@ -1,4 +1,4 @@
-
+@import './Variable.module';
 .whole-page {
     background-color: black;
     //background-image: url(https://i.imgur.com/Uw0xt6y.jpg); // TODO: change image hosting service
@@ -44,9 +44,14 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    overflow-y: scroll;
-    height: 90%;
-    max-height: 600px;
+
+    @media screen and (min-width: $md) {
+        overflow-y: scroll;
+        height: 90%;
+        max-height: 600px;
+    }
+
+    
 }
 
 .tag-name {
