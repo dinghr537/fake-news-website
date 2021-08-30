@@ -1,14 +1,10 @@
 import React from 'react';
-import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { StylesProvider } from '@material-ui/core/styles'
-import { makeStyles } from '@material-ui/core/styles';
-import { useState } from 'react';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -25,12 +21,6 @@ import Link from '@material-ui/core/Link'
 
 import logoImage from './../res/image/logo.png'
 import HeaderStyle from './../style/Header.module.scss'
-
-const useStyles = makeStyles((theme) => ({
-  paperRoot: {
-    backgroundColor: "#414147",
-  }
-}))
 
 function RouteList() {
   const [state, setState] = React.useState({
@@ -147,7 +137,6 @@ function RouteList() {
             Editor
           </ListItem>
         </Link>
-
       </List>
     </div>
   )
@@ -156,7 +145,6 @@ function RouteList() {
 
 
 export default function SwipeableTemporaryDrawer() {
-  const classes = useStyles();
   const [state, setState] = React.useState({ left: false });
 
   const toggleDrawer = (open) => (event) => {
@@ -192,7 +180,7 @@ export default function SwipeableTemporaryDrawer() {
             edge='start'
             onClick={toggleDrawer(true)}
           >
-            <MenuIcon style={{ fill: "white" }} />
+            <MenuIcon className={HeaderStyle['list-item-icon']} />
           </IconButton>
 
           <Link
@@ -211,7 +199,7 @@ export default function SwipeableTemporaryDrawer() {
             onClose={toggleDrawer(false)}
             onOpen={toggleDrawer(true)}
             PaperProps={{
-              className: classes.paperRoot,
+              className: HeaderStyle['paper-root']
             }}
           >
             <RouteList />

@@ -1,7 +1,7 @@
 @import './Variable.module';
 
 .toolbar {
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.7)),
+  background-image: linear-gradient(to bottom, rgba($color: #000, $alpha: 0.05), rgba($color: #000, $alpha: 0.7)),
     url("../res/image/header_footer_background.jpg");
   display: grid;
   // we're using 36px for the icon cuz the size of the content is 24(width) + 12*2(padding) - 12(edgeStart margin)
@@ -35,9 +35,6 @@
   width: 250px;
 
   &-item- {
-    &divider {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
 
     &icon {
       color: #fff;
@@ -45,12 +42,16 @@
 
     &text {
       color: #fff;
-      font-size: 16;
+      font-size: 16px;
     }
 
     &sub {
       color: #fff;
-      padding-left: 32;
+      padding-left: 32px;
     }
   }
+}
+
+.paper-root {
+  background-color: #414147;
 }
