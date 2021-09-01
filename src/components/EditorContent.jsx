@@ -119,6 +119,12 @@ function TagList(props) {
         if (!tagCollection.includes(tagNameWithoutNum)) {
             continue;
         }
+        if (tagNameWithoutNum == "num" && tagNameWithoutNum != tag) {
+            continue;
+        }
+        if (tagNameWithoutNum == "en" && tagNameWithoutNum != tag) {
+            continue;
+        }
         // let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
         list.push(
             <React.Fragment key={list.length}>
@@ -243,6 +249,12 @@ export default function EditorContent() {
         if (tagSet.has(contentFragment[i])) {
             let innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1);
             let tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')
+            if (tagNameWithoutNum == "num" && tagNameWithoutNum != innerTagName) {
+                continue;
+            }
+            if (tagNameWithoutNum == "en" && tagNameWithoutNum != innerTagName) {
+                continue;
+            }
             if (tagCollection.includes(tagNameWithoutNum)) {
                 // let filteredTagName = tagNameWithoutNum;
                 contentFragment[i] = <span className={EditorStyle[tagNameWithoutNum]}>{state[innerTagName]}</span>;
