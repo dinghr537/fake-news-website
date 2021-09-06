@@ -13,8 +13,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditorStyle from './../style/Editor.module.scss'
 
 
-// const tempNews = `<num>日美國總統<per0>與英國<en>首相<per1>於<loc0>舉行雙<en2>邊會談，兩人會後發布聯合聲明，<per0>表示支持<org0>...`;
-
 function TagList(props) {
     /**
      * input needed: tagVariables -> States with {tag: tagContent}
@@ -192,7 +190,6 @@ export default function EditorContent() {
                     <Grid
                         className={EditorStyle['content']}
                         container
-                        alignItems="flex-start"
                     >
                         <Grid
                             className={EditorStyle['content-signature']}

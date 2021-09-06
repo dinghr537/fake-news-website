@@ -114,9 +114,10 @@
 
 
 .content {
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     width: 100%;
+
     padding: {
       bottom: 10px;
       top: 10px;
@@ -127,6 +128,10 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        @media screen and (min-width: $md) {
+            position: sticky;
+            top: 5vh;
+        }
     }
 }
 
@@ -134,11 +139,9 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
     @media screen and (min-width: $md) {
         overflow-y: scroll;
-        height: 90%;
-        max-height: 600px;
+        max-height: 90vh;
     }
 }
 
