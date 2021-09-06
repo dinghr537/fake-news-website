@@ -4,7 +4,7 @@ import Popover from '@material-ui/core/Popover';
 import TextField from '@material-ui/core/TextField';
 import { StylesProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import HelpIcon from '@material-ui/icons/Help';
@@ -17,75 +17,6 @@ import HeaderStyle from './../style/Header.module.scss'
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const useStyles = makeStyles((theme) => ({
-    input: {
-        width: 650,
-        maxWidth: "100%",
-        "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgb(200, 200, 200)",
-        },
-        "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: "white"
-        },
-        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgb(235, 250, 173)"
-        },
-        "& .MuiInputBase-root.Mui-disabled": {
-            color: "white",
-        },
-        minHeight: "150",
-        alignItems: "start",
-        color: 'white',
-        fontSize: "20",
-        ['@media (min-width:600px)']: {
-            fontSize: "24",
-        },
-    },
-    inputNumberContainer: {
-        width: 650,
-        maxWidth: "100%",
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        ['@media (max-width:643px)']: {
-            justifyContent: "space-around",
-        },
-        "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgb(200, 200, 200)"
-        },
-        "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: "white"
-        },
-        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgb(235, 250, 173)"
-        },
-        '& .MuiTextField-root': {
-            margin: theme.spacing(2, 0),
-            width: 150,
-        },
-        color: 'white',
-        fontSize: "24",
-        paddingTop: 40,
-    },
-    KVInput: {
-        color: 'white',
-        fontSize: "24",
-    },
-    button: {
-        backgroundColor: '#3c52b2',
-        color: '#fff',
-        '&:hover': {
-            backgroundColor: '#fff',
-            color: '#3c52b2',
-        },
-        width: '100%',
-    },
-    typography: {
-        padding: theme.spacing(2),
-    },
-}));
-
 
 
 export default function FakeNews() {
@@ -108,7 +39,7 @@ export default function FakeNews() {
      * * * for example: "<per0>xxx<loc0>yyy" -> [ '', '<per0>', 'xxx', '<loc0>', 'yyy' ]
      *
      */
-    const classes = useStyles();
+    // const classes = useStyles();
     const [title, setTitle] = useState('<num> 日美國總統<per0>與英國首相<per1>舉行雙邊會談，');
     const [content, setContent] = useState('兩人會後發布聯合聲明，<per0>表示支持<org0>...');
     const [topK, setTopK] = useState(5);
@@ -190,7 +121,6 @@ export default function FakeNews() {
         setButtonClickable(false);
         setGenerateFinishSnackbarOpen(false);
         setSnackbarOpen(true);
-        // alert("start to generate fake news");
         console.log(buttonClickable);
         fetch('/post/_generate-fake-news', {
             method: 'POST',
@@ -282,11 +212,14 @@ export default function FakeNews() {
                     <h3 className={DemoStyle['input-title-h3']}>新聞標題:</h3>
                     <div>
 
-                        <TextField className={classes.input}
+                        <TextField className={DemoStyle['input-text-field']}
                             id="title-of-news"
                             multiline
                             InputProps={{
-                                className: classes.input
+                                className: DemoStyle['input-text-field']
+                            }}
+                            inputProps={{
+                                className: DemoStyle['inner-input-text'],
                             }}
                             value={title}
                             onChange={handleTitle}
@@ -297,19 +230,22 @@ export default function FakeNews() {
 
                     <h3 className={DemoStyle['input-title-h3']}>部份內文:</h3>
                     <div className={DemoStyle['input-title-div']}>
-                        <TextField className={classes.input}
+                        <TextField className={DemoStyle['input-text-field']}
                             id="content-of-news"
                             multiline
                             InputProps={{
-                                className: classes.input
+                                className: DemoStyle['input-text-field']
+                            }}
+                            inputProps={{
+                                className: DemoStyle['inner-input-text'],
                             }}
                             value={content}
                             onChange={handleContent}
                             variant="outlined"
                         />
                     </div>
-                    <div className={classes.inputNumberContainer} noValidate>
-                        <div>
+                    <div className={DemoStyle['input-number-container']} noValidate>
+                        <div className={DemoStyle['input-number-inner-container']}>
                             <TextField
                                 id="top-k"
                                 label="生成隨機性"
@@ -320,14 +256,14 @@ export default function FakeNews() {
                                     style: {
                                         color: 'white',
                                         fontSize: 24,
+                                        backgroundColor: 'black',
                                     },
                                 }}
-                                InputProps={{
-                                    inputProps: {
-                                        type: 'number',
-                                        min: 1,
-                                    },
-                                    className: classes.KVInput
+
+                                inputProps={{
+                                    type: 'number',
+                                    min: 1,
+                                    className: DemoStyle['inner-input-number'],
                                 }}
                                 variant="outlined"
                             />
@@ -348,10 +284,10 @@ export default function FakeNews() {
                                     horizontal: 'left',
                                 }}
                             >
-                                <Typography className={classes.typography}>The content of the Popover.</Typography>
+                                <Typography className={DemoStyle['popover']}>The content of the Popover.</Typography>
                             </Popover>
                         </div>
-                        <div>
+                        <div className={DemoStyle['input-number-inner-container']}>
                             <TextField
                                 id="length"
                                 label="生成長度"
@@ -362,15 +298,14 @@ export default function FakeNews() {
                                     style: {
                                         color: 'white',
                                         fontSize: 24,
-
+                                        backgroundColor: 'black',
                                     },
                                 }}
-                                InputProps={{
-                                    inputProps: {
-                                        type: 'number',
-                                        min: 1,
-                                    },
-                                    className: classes.KVInput
+
+                                inputProps={{
+                                    type: 'number',
+                                    min: 1,
+                                    className: DemoStyle['inner-input-number'],
                                 }}
                                 variant="outlined"
                             /><IconButton aria-label="more" onClick={handleAnchorOn}>
@@ -390,28 +325,26 @@ export default function FakeNews() {
                                     horizontal: 'left',
                                 }}
                             >
-                                <Typography className={classes.typography}>The content of the Popover.</Typography>
+                                <Typography className={DemoStyle['popover']}>The content of the Popover.</Typography>
                             </Popover>
                         </div>
-                        <div>
+                        <div className={DemoStyle['input-number-inner-container']}>
                             <TextField
                                 id="XXX"
-                                label="XXX(anyway)"
+                                label="XXX"
                                 type="number"
                                 InputLabelProps={{
                                     style: {
                                         color: 'white',
                                         fontSize: 24,
-
+                                        backgroundColor: 'black',
                                     },
                                 }}
-                                InputProps={{
-                                    inputProps: {
-                                        type: 'number',
-                                        min: 1,
-                                        defaultValue: 20,
-                                    },
-                                    className: classes.KVInput
+
+                                inputProps={{
+                                    type: 'number',
+                                    min: 1,
+                                    className: DemoStyle['inner-input-number'],
                                 }}
                                 variant="outlined"
                             />
@@ -432,10 +365,10 @@ export default function FakeNews() {
                                     horizontal: 'left',
                                 }}
                             >
-                                <Typography className={classes.typography}>The content of the Popover.</Typography>
+                                <Typography className={DemoStyle['popover']}>The content of the Popover.</Typography>
                             </Popover>
                         </div>
-                        <div>
+                        <div className={DemoStyle['input-number-inner-container']}>
                             <TextField
                                 id="TNT"
                                 label="TNT"
@@ -444,16 +377,14 @@ export default function FakeNews() {
                                     style: {
                                         color: 'white',
                                         fontSize: 24,
-
+                                        backgroundColor: 'black',
                                     },
                                 }}
-                                InputProps={{
-                                    inputProps: {
-                                        type: 'number',
-                                        min: 1,
-                                        defaultValue: 300,
-                                    },
-                                    className: classes.KVInput
+
+                                inputProps={{
+                                    type: 'number',
+                                    min: 1,
+                                    className: DemoStyle['inner-input-number'],
                                 }}
                                 variant="outlined"
                             />
@@ -474,7 +405,7 @@ export default function FakeNews() {
                                     horizontal: 'left',
                                 }}
                             >
-                                <Typography className={classes.typography}>The content of the Popover.</Typography>
+                                <Typography className={DemoStyle['popover']}>The content of the Popover.</Typography>
                             </Popover>
                         </div>
                     </div>
@@ -482,7 +413,7 @@ export default function FakeNews() {
 
                     </div>
                     <div className={DemoStyle['btn-container']}>
-                        <Button className={classes.button}
+                        <Button className={DemoStyle['button']}
                             color="secondary"
                             onClick={handleClickGenerate}
                             disabled={!buttonClickable}
@@ -493,21 +424,8 @@ export default function FakeNews() {
                 </div>
             </div>
 
-            {/* output part */}
-
             <div className={DemoStyle['IO-container']}>
                 <div className={DemoStyle['output-title']}>
-                    {/* <h3 className={DemoStyle['output-title-h3']}>
-                        Type of Tags:
-                    </h3>
-                    <div className={DemoStyle['output-title-desc']}>
-                        <p className={DemoStyle['org']}>org ➜ O &nbsp;</p>
-                        <p className={DemoStyle['per']}>per ➜ P &nbsp;</p>
-                        <p className={DemoStyle['loc']}>loc ➜ L &nbsp;</p>
-                        <p className={DemoStyle['num']}>num ➜ N &nbsp;</p>
-                        <p className={DemoStyle['en']}>en ➜ E &nbsp;</p>
-                    </div> */}
-
                     <h3 className={DemoStyle['output-title-h3']}>
                         News Output:
                     </h3>
@@ -515,8 +433,7 @@ export default function FakeNews() {
                         {output.map((item, index) => <span key={index}>{item}</span>)}
                     </div>
                     <div className={DemoStyle['btn-container']}>
-                        <Button className={classes.button}
-                            // variant="outlined"
+                        <Button className={DemoStyle['button']}
                             color="secondary"
                             onClick={editInAnotherPage}
                         >
@@ -524,8 +441,6 @@ export default function FakeNews() {
                         </Button>
                     </div>
                 </div>
-
-
 
             </div>
         </StylesProvider>
