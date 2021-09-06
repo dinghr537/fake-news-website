@@ -15,88 +15,6 @@ import EditorStyle from './../style/Editor.module.scss'
 
 // const tempNews = `<num>日美國總統<per0>與英國<en>首相<per1>於<loc0>舉行雙<en2>邊會談，兩人會後發布聯合聲明，<per0>表示支持<org0>...`;
 
-const useStyles = makeStyles((theme) => ({
-    inputTextField: {
-        width: "76%",
-        "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgb(200, 200, 200)",
-        },
-        "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: "white"
-        },
-        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgb(235, 250, 173)"
-        },
-        "& .MuiInputBase-root.Mui-disabled": {
-            color: "white",
-        },
-        justifyContent: 'center',
-        minHeight: "80",
-        paddingLeft: '10',
-    },
-    input: {
-        fontSize: "20",
-        ['@media (min-width:600px)']: {
-            fontSize: "24",
-        },
-        color: 'white',
-    },
-    label: {
-        color: 'white',
-        fontSize: 20,
-    },
-    button: {
-        backgroundColor: '#3c52b2',
-        color: '#fff',
-        '&:hover': {
-            backgroundColor: '#fff',
-            color: '#3c52b2',
-        },
-        width: '100%',
-    },
-    editorField: {
-        "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgb(200, 200, 200)",
-        },
-        "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: "white"
-        },
-        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgb(235, 250, 173)"
-        },
-        "& .MuiInputBase-root.Mui-disabled": {
-            color: "white",
-        },
-        minHeight: "200",
-        boxSizing: "border-box",
-        color: 'white',
-        fontSize: "22",
-        width: "100%",
-        maxWidth: "100%",
-        padding: "16 16 16 16",
-        alignItems: "flex-start",
-    },
-    heading: {
-        fontSize: "20",
-        fontWeight: theme.typography.fontWeightRegular,
-    },
-    accordion: {
-        backgroundColor: "black",
-        color: "white",
-        marginTop: "20",
-        marginLeft: "20",
-        marginRight: "20",
-        "& .Mui-expanded": {
-            border: "none",
-        }
-    },
-    accordionSummary: {
-        border: "1px solid white",
-        borderRadius: "5px",
-        // transition: "width 2s, height 4s",
-    },
-}))
-
 function TagList(props) {
     /**
      * input needed: tagVariables -> States with {tag: tagContent}
@@ -125,20 +43,19 @@ function TagList(props) {
         if (tagNameWithoutNum == "en" && tagNameWithoutNum != tag) {
             continue;
         }
-        // let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
         list.push(
             <React.Fragment key={list.length}>
                 <div className={EditorStyle['tag-name']}>
                     <span className={EditorStyle[tagNameWithoutNum]}>{tag}:</span>
                 </div>
-                <TextField className={props.classes.inputTextField}
+                <TextField className={EditorStyle['input-text-field']}
                     id={tag}
                     multiline
                     InputProps={{
-                        className: props.classes.input
+                        className: EditorStyle['input'],
                     }}
-                    InputLabelProps={{
-                        className: props.classes.label
+                    inputProps={{
+                        className: EditorStyle['inner-input'],
                     }}
                     value={props.value[tag]}
                     onChange={props.onChange}
@@ -172,8 +89,8 @@ export default function EditorContent() {
      *          update the state (setState)
      *
      */
-    const classes = useStyles();
     const [news, setNews] = useState("");
+    const [accordionState, setAccordionState] = useState(EditorStyle['accordion-summary'])
 
     const reG = /<[\w-]*>/g;
     const re = /(<[\w-]*>)/;
@@ -215,6 +132,13 @@ export default function EditorContent() {
         setState({ ...state, [event.target.id]: [event.target.value] });
     }
 
+    function handleAccordionChange(event, expanded) {
+        if (expanded) {
+            setAccordionState(EditorStyle['accordion-summary-expanded'])
+        } else {
+            setAccordionState(EditorStyle['accordion-summary'])
+        }
+    }
 
     function handleEdit(event) {
         /*
@@ -256,11 +180,8 @@ export default function EditorContent() {
                 continue;
             }
             if (tagCollection.includes(tagNameWithoutNum)) {
-                // let filteredTagName = tagNameWithoutNum;
                 contentFragment[i] = <span className={EditorStyle[tagNameWithoutNum]}>{state[innerTagName]}</span>;
             }
-            // let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
-            // contentFragment[i] = <span className={EditorStyle[filteredTagName]}>{state[innerTagName]}</span>;
         }
     }
 
@@ -277,7 +198,7 @@ export default function EditorContent() {
                             className={EditorStyle['content-signature']}
                             item xs={12} sm={8} md={5} lg={4} xl={3}
                         >
-                            <TagList tagVariables={syncState} classes={classes} value={state} onChange={handleTagChange} />
+                            <TagList tagVariables={syncState} value={state} onChange={handleTagChange} />
                         </Grid>
                         <Grid
                             className={EditorStyle['content-signature']}
@@ -287,21 +208,25 @@ export default function EditorContent() {
                                 <div className={EditorStyle['news']}>
                                     {contentFragment.map((item, index) => <span key={index}>{item}</span>)}
                                 </div>
-                                <Accordion className={classes.accordion}>
+                                <Accordion className={EditorStyle['accordion']}
+                                    onChange={handleAccordionChange}>
                                     <AccordionSummary
-                                        className={classes.accordionSummary}
+                                        className={accordionState}
                                         expandIcon={<ExpandMoreIcon style={{ fill: "white" }} />}
                                         aria-controls="panel1a-content"
                                         id="panel1a-header"
                                     >
-                                        <Typography className={classes.heading}>修改新聞內容</Typography>
+                                        <Typography className={EditorStyle['heading']}>修改新聞內容</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
-                                        <TextField className={classes.editorField}
+                                        <TextField className={EditorStyle['editor-field']}
                                             id="news"
                                             multiline
                                             InputProps={{
-                                                className: classes.editorField
+                                                className: EditorStyle['editor-field']
+                                            }}
+                                            inputProps={{
+                                                className: EditorStyle['inner-input-edit-field']
                                             }}
                                             value={news}
                                             onChange={handleEdit}
@@ -313,9 +238,6 @@ export default function EditorContent() {
                             </div>
                         </Grid>
                     </Grid>
-
-
-
                 </div>
             </div>
         </StylesProvider>

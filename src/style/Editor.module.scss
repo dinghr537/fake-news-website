@@ -1,13 +1,9 @@
 @import './Variable.module';
 .whole-page {
     background-color: black;
-    //background-image: url(https://i.imgur.com/Uw0xt6y.jpg); // TODO: change image hosting service
-    // background-image: linear-gradient(to bottom , url(https://i.imgur.com/Uw0xt6y.jpg), black);
     background-size: 100% auto;
     background-repeat: no-repeat;
     min-height: 100%;
-    // height: 100%;
-    // object-fit: fill;
 }
 
 .container {
@@ -20,11 +16,105 @@
     padding-right: 20;
 }
 
+.input-text-field {
+    width: 76%;
+    padding: 0px;
+    & fieldset {
+        border: none;
+    }
+    justify-content: center;
+    min-height: 70px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.input {
+    padding: 0px;
+    font-size: 20px;
+    @media (min-width:600px) {
+        font-size: 24px;
+    }
+    color: white;
+}
+
+.inner-input {
+    color: white;
+    font-size: 20px;
+    padding: 16px;
+    border-radius: 4px;
+    border: 1px solid rgb(200, 200, 200);
+    &:hover {
+        border: 2px solid white;
+    }
+    &:focus {
+        border: 2px solid rgb(235, 250, 173);
+    }
+}
+
+.inner-input-edit-field {
+    color: white;
+    font-size: 22px;
+    padding: 16px;
+    border-radius: 4px;
+    border: 1px solid rgb(200, 200, 200);
+    &:hover {
+        border: 2px solid white;
+    }
+    &:focus {
+        border: 2px solid rgb(235, 250, 173);
+    }
+    min-height: 200px;
+    line-height: 1.43;
+}
+
+
+
+.button {
+    background-color: #3c52b2;
+    color: #fff;
+    width: 100%;
+    &:hover {
+        background-color: #fff;
+        color: #3c52b2;
+    }
+}
+
+.editor-field {
+    & fieldset {
+        border: none;
+    }
+    box-sizing: border-box;
+    color: white;
+    width: 100%;
+    max-width: 100%;
+    padding: 0px;
+    align-items: flex-start;
+}
+
+.heading {
+    font-size: 20px;
+
+}
+
+.accordion {
+    background-color: black;
+    color: white;
+    margin: 20 20 0 20;
+    &-expanded {
+        border: none;
+    }
+    &-summary {
+        border: 1px solid white;
+        border-radius: 5px;
+        &-expanded {
+            border: none;
+        }
+    }
+}
 
 
 .content {
     align-items: center;
-    // background-color: $main-color;
     justify-content: center;
     width: 100%;
     padding: {
@@ -37,7 +127,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-    }    
+    }
 }
 
 .input-text-field-container {
@@ -50,8 +140,6 @@
         height: 90%;
         max-height: 600px;
     }
-
-    
 }
 
 .tag-name {
@@ -60,7 +148,6 @@
     text-align: center;
     align-self: center;
     line-break: anywhere;
-    // max-width: 15%;
 }
 
 .news {
@@ -75,16 +162,6 @@
     margin-top: 40px;
     margin-left: 20px;
     margin-right: 20px;
-}
-
-.btn {
-    width: 100%;
-    // color: white;
-
-
-    &-container {
-        margin-top: 20;
-    }
 }
 
 .num {
@@ -107,19 +184,15 @@
     color: palevioletred;
 }
 
-.others {
-    color: fuchsia;
-}
-
 /* Works on Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
     width: 12px;
   }
-  
+
   *::-webkit-scrollbar-track {
     background: rgb(30, 30, 30);
   }
-  
+
   *::-webkit-scrollbar-thumb {
     background-color: rgb(100, 100, 100);
     border-radius: 20px;
