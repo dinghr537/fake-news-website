@@ -155,7 +155,6 @@ export default function SwipeableTemporaryDrawer() {
     setState({ ...state, left: open });
   };
 
-
   return (
     /**
      * Structure:
@@ -207,6 +206,5 @@ export default function SwipeableTemporaryDrawer() {
         </Toolbar>
       </StylesProvider>
     </div>
-
   );
 }

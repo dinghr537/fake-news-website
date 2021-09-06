@@ -2,12 +2,8 @@
 
 .whole-page {
     background-color: black;
-    //background-image: url(https://i.imgur.com/Uw0xt6y.jpg); // TODO: change image hosting service
-    // background-image: linear-gradient(to bottom , url(https://i.imgur.com/Uw0xt6y.jpg), black);
     background-size: 100% auto;
     background-repeat: no-repeat;
-    // height: 100%;
-    // object-fit: fill;
 }
 
 .demo-title {
@@ -16,15 +12,14 @@
     margin-bottom: 0;
     text-align: center;
     color: white;
-  
+
     @media screen and (min-width: $sm) {
       font-size: 34px;
     }
-  
+
     @media screen and (min-width: $md) {
       font-size: 40px;
     }
-
 }
 
 .IO-container {
@@ -39,8 +34,6 @@
 
 .btn {
     width: 100%;
-    // color: white;
-
 
     &-container {
         margin-top: 20;
@@ -81,8 +74,6 @@
         font-size: 22;
         color: white;
         color: aquamarine;
-
-        
     }
 }
 
@@ -92,6 +83,7 @@
     align-items: flex-start;
     color: white;
     padding: 0px;
+
     & fieldset {
         border: none;
     }
@@ -149,9 +141,6 @@
     box-sizing: border-box;
     padding: 16px;
     line-height: 1.43;
-    // @media (min-width:600px) {
-    //     font-size: 24px;
-    // }
     border-radius: 4px;
     border: 1px solid rgb(200, 200, 200);
     &:hover {
@@ -177,13 +166,11 @@
 }
 
 .output-title {
-    // margin-top: 30;
     max-width: 100%;
     padding: 0 20 20 20;
     border: solid rgba(173, 203, 224, 0.8) 2px;
     background-color: rgba(60, 60, 60, 0.1);
     width: 694;
-    // min-height: 450;
 
     &-h3 {
         font-size: 20px;
@@ -261,11 +248,3 @@
     color: fuchsia;
 }
 
-
-// div.input-title-text > div {
-//     font-size: 24;
-// }
-
-// div.input-title-text  textarea {
-//     color: white;
-// }
