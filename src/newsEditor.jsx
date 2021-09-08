@@ -10,5 +10,5 @@ ReactDom.render(
         <EditorContent />
         <Footer />
     </>,
-    document.getElementById("root"),
+    document.getElementById('root'),
 )

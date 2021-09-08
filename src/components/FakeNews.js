@@ -1,20 +1,20 @@
-import React from 'react';
-import { useState } from 'react';
-import Popover from '@material-ui/core/Popover';
-import TextField from '@material-ui/core/TextField';
-import { StylesProvider } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import HelpIcon from '@material-ui/icons/Help';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import React from 'react'
+import {useState} from 'react'
+import Popover from '@material-ui/core/Popover'
+import TextField from '@material-ui/core/TextField'
+import {StylesProvider} from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import HelpIcon from '@material-ui/icons/Help'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
 import DemoStyle from './../style/Demo.module.scss'
 import HeaderStyle from './../style/Header.module.scss'
 
 function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
+    return <MuiAlert elevation={6} variant="filled" {...props} />
 }
 
 
@@ -39,70 +39,71 @@ export default function FakeNews() {
      *
      */
     // const classes = useStyles();
-    const [title, setTitle] = useState('<num> 日美國總統<per0>與英國首相<per1>舉行雙邊會談，');
-    const [content, setContent] = useState('兩人會後發布聯合聲明，<per0>表示支持<org0>...');
-    const [topK, setTopK] = useState(5);
-    const [targetLength, setTargetLength] = useState(300);
-    const [output, setOutput] = useState(["尚無輸出。。。"]);
-    const [plainNews, setPlainNews] = useState("");
-    const [buttonClickable, setButtonClickable] = useState(true);
-    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const [generateFinishSnackbarOpen, setGenerateFinishSnackbarOpen] = React.useState(false);
+    const [title, setTitle] = useState('<num> 日美國總統<per0>與英國首相<per1>舉行雙邊會談，')
+    const [content, setContent] = useState('兩人會後發布聯合聲明，<per0>表示支持<org0>...')
+    const [topK, setTopK] = useState(5)
+    const [targetLength, setTargetLength] = useState(300)
+    const [output, setOutput] = useState(['尚無輸出。。。'])
+    const [plainNews, setPlainNews] = useState('')
+    const [buttonClickable, setButtonClickable] = useState(true)
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false)
+    const [generateFinishSnackbarOpen, setGenerateFinishSnackbarOpen] = React.useState(false)
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const open = Boolean(anchorEl)
+    const id = open ? 'simple-popover' : undefined
 
-    let fallBackNews = "尚無輸出";
-    const reG = /<[\w-]*>/g;
-    const re = /(<[\w-]*>)/;
-    let tags = fallBackNews.match(reG);
-    let tagSet = new Set(tags);
-    let contentFragment = fallBackNews.split(re);
+    const fallBackNews = '尚無輸出'
+    const reG = /<[\w-]*>/g
+    const re = /(<[\w-]*>)/
+    let tags = fallBackNews.match(reG)
+    let tagSet = new Set(tags)
+    let contentFragment = fallBackNews.split(re)
 
     const handleAnchorOn = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+        setAnchorEl(event.currentTarget)
+    }
 
     const handleClose = () => {
-        setAnchorEl(null);
-    };
+        setAnchorEl(null)
+    }
 
     function handleTitle(event) {
-        setTitle(event.target.value);
-    };
+        setTitle(event.target.value)
+    }
 
     function handleContent(event) {
-        setContent(event.target.value);
+        setContent(event.target.value)
     }
 
     function handleTopK(event) {
-        setTopK(event.target.value);
+        setTopK(event.target.value)
     }
 
     function handleTargetLength(event) {
-        setTargetLength(event.target.value);
+        setTargetLength(event.target.value)
     }
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
-            return;
+            return
         }
-        setSnackbarOpen(false);
-    };
+        setSnackbarOpen(false)
+    }
 
     const handleGenerateFinishSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
-            return;
+            return
         }
-        setGenerateFinishSnackbarOpen(false);
-    };
+        setGenerateFinishSnackbarOpen(false)
+    }
 
     function numberBackup(number, defaultNum) {
-        if (isNaN(number) || number === "")
-            return defaultNum;
-        else
-            return Math.round(number) >= 1 ? Math.round(number) : defaultNum;
+        if (isNaN(number) || number === '') {
+            return defaultNum
+        } else {
+            return Math.round(number) >= 1 ? Math.round(number) : defaultNum
+        }
     }
 
 
@@ -117,10 +118,10 @@ export default function FakeNews() {
          *          warp the tags with 'span' tag and their corresponding classes
          *          update the output (setOutput)
          */
-        setButtonClickable(false);
-        setGenerateFinishSnackbarOpen(false);
-        setSnackbarOpen(true);
-        console.log(buttonClickable);
+        setButtonClickable(false)
+        setGenerateFinishSnackbarOpen(false)
+        setSnackbarOpen(true)
+        console.log(buttonClickable)
         fetch('/post/_generate-fake-news', {
             method: 'POST',
             headers: {
@@ -132,30 +133,29 @@ export default function FakeNews() {
                 content: content,
                 topK: numberBackup(topK, 5),
                 targetLength: numberBackup(targetLength, 300),
-            })
+            }),
         })
-            .then(response => response.json())
-            .then(myJson => {
-                setPlainNews(myJson.content);
-                tags = myJson.content.match(reG);
-                tagSet = new Set(tags);
-                contentFragment = myJson.content.split(re);
+            .then((response) => response.json())
+            .then((myJson) => {
+                setPlainNews(myJson.content)
+                tags = myJson.content.match(reG)
+                tagSet = new Set(tags)
+                contentFragment = myJson.content.split(re)
 
                 const tagCollection = ['num', 'per', 'en', 'loc', 'org']
                 for (let i = 0; i < contentFragment.length; ++i) {
                     if (tagSet.has(contentFragment[i])) {
-                        let innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1);
-                        let tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')
-                        let filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : "others";
-                        contentFragment[i] = <span className={DemoStyle[filteredTagName]}>{innerTagName}</span>;
+                        const innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1)
+                        const tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')
+                        const filteredTagName = tagCollection.includes(tagNameWithoutNum) ? tagNameWithoutNum : 'others'
+                        contentFragment[i] = <span className={DemoStyle[filteredTagName]}>{innerTagName}</span>
                     }
                 }
-                setOutput(contentFragment);
-                setButtonClickable(true);
-                setSnackbarOpen(false);
-                setGenerateFinishSnackbarOpen(true);
+                setOutput(contentFragment)
+                setButtonClickable(true)
+                setSnackbarOpen(false)
+                setGenerateFinishSnackbarOpen(true)
             })
-
     }
 
     function editInAnotherPage() {
@@ -163,7 +163,7 @@ export default function FakeNews() {
          * Post the fake news to the server.
          * Then jump to the editor page.
          */
-        alert("going");
+        alert('going')
         fetch('/post/_news-data', {
             method: 'POST',
             headers: {
@@ -171,10 +171,10 @@ export default function FakeNews() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                news: plainNews
-            })
+                news: plainNews,
+            }),
         })
-        window.location.href = '/newsEditor.html';
+        window.location.href = '/newsEditor.html'
     }
 
 
@@ -182,8 +182,8 @@ export default function FakeNews() {
         <StylesProvider injectFirst>
             <Snackbar
                 anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left"
+                    vertical: 'bottom',
+                    horizontal: 'left',
                 }}
                 open={snackbarOpen}
                 autoHideDuration={6000}
@@ -195,8 +195,8 @@ export default function FakeNews() {
             </Snackbar>
             <Snackbar
                 anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left"
+                    vertical: 'bottom',
+                    horizontal: 'left',
                 }}
                 open={generateFinishSnackbarOpen}
                 autoHideDuration={6000}
@@ -215,7 +215,7 @@ export default function FakeNews() {
                             id="title-of-news"
                             multiline
                             InputProps={{
-                                className: DemoStyle['input-text-field']
+                                className: DemoStyle['input-text-field'],
                             }}
                             inputProps={{
                                 className: DemoStyle['inner-input-text'],
@@ -233,7 +233,7 @@ export default function FakeNews() {
                             id="content-of-news"
                             multiline
                             InputProps={{
-                                className: DemoStyle['input-text-field']
+                                className: DemoStyle['input-text-field'],
                             }}
                             inputProps={{
                                 className: DemoStyle['inner-input-text'],

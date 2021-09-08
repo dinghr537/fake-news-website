@@ -9,5 +9,5 @@ ReactDom.render(
         <div> <p>TBD</p> </div>
         <Footer />
     </>,
-    document.getElementById("root"),
+    document.getElementById('root'),
 )

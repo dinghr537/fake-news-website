@@ -10,5 +10,5 @@ ReactDom.render(
         <HomePageContent />
         <Footer />
     </>,
-    document.getElementById("root"),
+    document.getElementById('root'),
 )

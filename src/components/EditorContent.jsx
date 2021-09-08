@@ -1,17 +1,23 @@
 import React from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react';
+import {useEffect} from 'react'
+import {useState} from 'react'
 import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField';
-import { makeStyles, StylesProvider } from "@material-ui/core/styles";
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import TextField from '@material-ui/core/TextField'
+import {StylesProvider} from '@material-ui/core/styles'
+import Accordion from '@material-ui/core/Accordion'
+import AccordionSummary from '@material-ui/core/AccordionSummary'
+import AccordionDetails from '@material-ui/core/AccordionDetails'
+import Typography from '@material-ui/core/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import PropTypes from 'prop-types'
 
 import EditorStyle from './../style/Editor.module.scss'
 
+TagList.propTypes = {
+    tagVariables: PropTypes.object,
+    value: PropTypes.number,
+    onChange: PropTypes.func,
+}
 
 function TagList(props) {
     /**
@@ -20,47 +26,49 @@ function TagList(props) {
      *               value -> tags' value
      *               onChange -> handleTagChange
      */
-    const list = [];
-    const tagCollection = ['num', 'per', 'en', 'loc', 'org'];
-    const orderedTagVariables = Object.keys(props.tagVariables).sort(new Intl.Collator('en', { numeric: true, sensitivity: 'accent' }).compare).reduce(
+    const list = []
+    const tagCollection = ['num', 'per', 'en', 'loc', 'org']
+    const orderedTagVariables = Object.keys(props.tagVariables).sort(new Intl.Collator('en', {numeric: true, sensitivity: 'accent'}).compare).reduce(
         (obj, key) => {
-            obj[key] = props.tagVariables[key];
-            return obj;
+            obj[key] = props.tagVariables[key]
+            return obj
         },
-        {}
-    );
+        {},
+    )
     for (const tag in orderedTagVariables) {
-        console.log(tag);
-        let tagNameWithoutNum = tag.replace(/[0-9]/g, '')
-        if (!tagCollection.includes(tagNameWithoutNum)) {
-            continue;
+        if (typeof (tag) == 'string') {
+            console.log(tag)
+            const tagNameWithoutNum = tag.replace(/[0-9]/g, '')
+            if (!tagCollection.includes(tagNameWithoutNum)) {
+                continue
+            }
+            if (tagNameWithoutNum == 'num' && tagNameWithoutNum != tag) {
+                continue
+            }
+            if (tagNameWithoutNum == 'en' && tagNameWithoutNum != tag) {
+                continue
+            }
+            list.push(
+                <React.Fragment key={list.length}>
+                    <div className={EditorStyle['tag-name']}>
+                        <span className={EditorStyle[tagNameWithoutNum]}>{tag}:</span>
+                    </div>
+                    <TextField className={EditorStyle['input-text-field']}
+                        id={tag}
+                        multiline
+                        InputProps={{
+                            className: EditorStyle['input'],
+                        }}
+                        inputProps={{
+                            className: EditorStyle['inner-input'],
+                        }}
+                        value={props.value[tag]}
+                        onChange={props.onChange}
+                        variant="outlined"
+                    />
+                </React.Fragment>,
+            )
         }
-        if (tagNameWithoutNum == "num" && tagNameWithoutNum != tag) {
-            continue;
-        }
-        if (tagNameWithoutNum == "en" && tagNameWithoutNum != tag) {
-            continue;
-        }
-        list.push(
-            <React.Fragment key={list.length}>
-                <div className={EditorStyle['tag-name']}>
-                    <span className={EditorStyle[tagNameWithoutNum]}>{tag}:</span>
-                </div>
-                <TextField className={EditorStyle['input-text-field']}
-                    id={tag}
-                    multiline
-                    InputProps={{
-                        className: EditorStyle['input'],
-                    }}
-                    inputProps={{
-                        className: EditorStyle['inner-input'],
-                    }}
-                    value={props.value[tag]}
-                    onChange={props.onChange}
-                    variant="outlined"
-                />
-            </React.Fragment>
-        )
     }
 
     return (
@@ -87,47 +95,47 @@ export default function EditorContent() {
      *          update the state (setState)
      *
      */
-    const [news, setNews] = useState("");
+    const [news, setNews] = useState('')
     const [accordionState, setAccordionState] = useState(EditorStyle['accordion-summary'])
 
-    const reG = /<[\w-]*>/g;
-    const re = /(<[\w-]*>)/;
+    const reG = /<[\w-]*>/g
+    const re = /(<[\w-]*>)/
 
-    const permanentValue = 1;
+    const permanentValue = 1
     useEffect(() => {
         fetch('/_hidden-news-data')
-            .then(response => response.json())
-            .then(json => {
-                setNews(json.news);
-                let tags = json.news.match(reG);
-                let tagSet = new Set(tags);
-                contentFragment = json.news.split(re);
-                let tempState = {};
+            .then((response) => response.json())
+            .then((json) => {
+                setNews(json.news)
+                const tags = json.news.match(reG)
+                const tagSet = new Set(tags)
+                contentFragment = json.news.split(re)
+                const tempState = {}
                 for (const tag of tagSet) {
-                    let innerTag = tag.substring(1, tag.length - 1)
-                    tempState[innerTag] = innerTag;
+                    const innerTag = tag.substring(1, tag.length - 1)
+                    tempState[innerTag] = innerTag
                 }
-                setState(tempState);
+                setState(tempState)
                 // done
             })
-            .catch(err => console.log('Request Failed', err));
-    }, [permanentValue]);
+            .catch((err) => console.log('Request Failed', err))
+    }, [permanentValue])
 
     // same code with useEffect, useful when didn't get anything
-    let tags = news.match(reG);
-    let tagSet = new Set(tags);
-    let contentFragment = news.split(re);
-    let tempState = {};
+    let tags = news.match(reG)
+    let tagSet = new Set(tags)
+    let contentFragment = news.split(re)
+    let tempState = {}
     for (const tag of tagSet) {
-        let innerTag = tag.substring(1, tag.length - 1)
-        tempState[innerTag] = innerTag;
+        const innerTag = tag.substring(1, tag.length - 1)
+        tempState[innerTag] = innerTag
     }
 
-    const [state, setState] = React.useState({});
-    let syncState = state;
+    const [state, setState] = React.useState({})
+    let syncState = state
 
     function handleTagChange(event) {
-        setState({ ...state, [event.target.id]: [event.target.value] });
+        setState({...state, [event.target.id]: [event.target.value]})
     }
 
     function handleAccordionChange(event, expanded) {
@@ -145,40 +153,40 @@ export default function EditorContent() {
          * assign previous state to the new state
          * update state (setState)
          */
-        setNews(event.target.value);
-        let syncNews = event.target.value;
-        tags = syncNews.match(reG);
-        tagSet = new Set(tags);
-        contentFragment = syncNews.split(re);
-        tempState = {};
+        setNews(event.target.value)
+        const syncNews = event.target.value
+        tags = syncNews.match(reG)
+        tagSet = new Set(tags)
+        contentFragment = syncNews.split(re)
+        tempState = {}
         for (const tag of tagSet) {
-            let innerTag = tag.substring(1, tag.length - 1)
-            tempState[innerTag] = innerTag;
+            const innerTag = tag.substring(1, tag.length - 1)
+            tempState[innerTag] = innerTag
         }
 
-        const keys = Object.keys(tempState);
-        Object.assign(tempState, state);
+        const keys = Object.keys(tempState)
+        Object.assign(tempState, state)
         Object.keys(tempState)
-            .filter(key => !keys.includes(key))
-            .forEach(key => delete tempState[key]);
-        setState(tempState);
-        syncState = tempState;
+            .filter((key) => !keys.includes(key))
+            .forEach((key) => delete tempState[key])
+        setState(tempState)
+        syncState = tempState
     }
 
     // warp the tags with 'span' tag and their corresponding classes
     const tagCollection = ['num', 'per', 'en', 'loc', 'org']
     for (let i = 0; i < contentFragment.length; ++i) {
         if (tagSet.has(contentFragment[i])) {
-            let innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1);
-            let tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')
-            if (tagNameWithoutNum == "num" && tagNameWithoutNum != innerTagName) {
-                continue;
+            const innerTagName = contentFragment[i].substring(1, contentFragment[i].length - 1)
+            const tagNameWithoutNum = innerTagName.replace(/[0-9]/g, '')
+            if (tagNameWithoutNum == 'num' && tagNameWithoutNum != innerTagName) {
+                continue
             }
-            if (tagNameWithoutNum == "en" && tagNameWithoutNum != innerTagName) {
-                continue;
+            if (tagNameWithoutNum == 'en' && tagNameWithoutNum != innerTagName) {
+                continue
             }
             if (tagCollection.includes(tagNameWithoutNum)) {
-                contentFragment[i] = <span className={EditorStyle[tagNameWithoutNum]}>{state[innerTagName]}</span>;
+                contentFragment[i] = <span className={EditorStyle[tagNameWithoutNum]}>{state[innerTagName]}</span>
             }
         }
     }
@@ -209,7 +217,7 @@ export default function EditorContent() {
                                     onChange={handleAccordionChange}>
                                     <AccordionSummary
                                         className={accordionState}
-                                        expandIcon={<ExpandMoreIcon style={{ fill: "white" }} />}
+                                        expandIcon={<ExpandMoreIcon style={{fill: 'white'}} />}
                                         aria-controls="panel1a-content"
                                         id="panel1a-header"
                                     >
@@ -220,10 +228,10 @@ export default function EditorContent() {
                                             id="news"
                                             multiline
                                             InputProps={{
-                                                className: EditorStyle['editor-field']
+                                                className: EditorStyle['editor-field'],
                                             }}
                                             inputProps={{
-                                                className: EditorStyle['inner-input-edit-field']
+                                                className: EditorStyle['inner-input-edit-field'],
                                             }}
                                             value={news}
                                             onChange={handleEdit}

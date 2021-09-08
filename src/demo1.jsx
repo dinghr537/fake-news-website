@@ -13,5 +13,5 @@ ReactDom.render(
             <Footer />
         </div>
     </>,
-    document.getElementById("root"),
+    document.getElementById('root'),
 )
