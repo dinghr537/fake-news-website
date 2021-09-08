@@ -1,19 +1,20 @@
 @import './Variable.module';
 
 .toolbar {
-  background-image: linear-gradient(to bottom, rgba($color: #000, $alpha: 0.05), rgba($color: #000, $alpha: 0.7)),
-    url("../res/image/header_footer_background.jpg");
+  background-image:
+    linear-gradient(to bottom, rgba($color: #000, $alpha: 0.05), rgba($color: #000, $alpha: 0.7)),
+    url('../res/image/header_footer_background.jpg');
   display: grid;
+  grid-template-areas: 'icon logo .';
   // we're using 36px for the icon cuz the size of the content is 24(width) + 12*2(padding) - 12(edgeStart margin)
   grid-template-columns: 36px 100px 36px;
-  grid-template-areas: 'icon logo .';
   justify-content: space-between;
 }
 
-
 .menu-icon {
-  grid-area: 'icon';
   background-color: rgba($color: #424242, $alpha: 0.7);
+  grid-area: 'icon';
+
   &:hover {
     background-color: rgba($color: #424242, $alpha: 0.9);
   }
@@ -25,8 +26,8 @@
   justify-self: center;
 
   .logo {
-    justify-self: center;
     height: auto;
+    justify-self: center;
     width: 100px;
   }
 }
@@ -35,7 +36,6 @@
   width: 250px;
 
   &-item- {
-
     &icon {
       color: #fff;
     }

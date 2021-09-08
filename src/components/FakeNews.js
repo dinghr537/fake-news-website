@@ -206,7 +206,7 @@ export default function FakeNews() {
                     假新聞生成成功
                 </Alert>
             </Snackbar>
-            <div className={DemoStyle['IO-container']}>
+            <div className={DemoStyle['io-container']}>
                 <div className={DemoStyle['input-title']}>
                     <h3 className={DemoStyle['input-title-h3']}>新聞標題:</h3>
                     <div>
@@ -423,7 +423,7 @@ export default function FakeNews() {
                 </div>
             </div>
 
-            <div className={DemoStyle['IO-container']}>
+            <div className={DemoStyle['io-container']}>
                 <div className={DemoStyle['output-title']}>
                     <h3 className={DemoStyle['output-title-h3']}>
                         News Output:

@@ -1,17 +1,19 @@
 @import './Variable.module';
+
 .footer-background {
-    display: flex;
-    justify-content: center;
-    padding: 12px 0px 12px 0px;
-    height: 64px;
-    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.9)),
-    url("../res/image/header_footer_background.jpg");
-    width: 100%;
-    color: #fff;
+  background-image:
+    linear-gradient(to top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.9)),
+    url('../res/image/header_footer_background.jpg');
+  color: #fff;
+  display: flex;
+  height: 64px;
+  justify-content: center;
+  padding: 12px 0;
+  width: 100%;
 }
 
 .logo {
-    height: auto;
-    max-width: 100px;
-    width: 100px;
+  height: auto;
+  max-width: 100px;
+  width: 100px;
 }
