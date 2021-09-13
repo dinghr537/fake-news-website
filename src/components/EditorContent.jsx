@@ -71,11 +71,24 @@ function TagList(props) {
         }
     }
 
-    return (
+    console.log(list.length)
+    const noTag = (
+        <div className={EditorStyle['no-tag']}>
+            <p>
+                暫無標籤
+            </p>
+        </div>
+    )
+    const Tags = (
         <div className={EditorStyle['input-text-field-container']}>
             {list}
         </div>
     )
+    if (list.length == 0) {
+        return noTag
+    } else {
+        return Tags
+    }
 }
 
 export default function EditorContent() {
