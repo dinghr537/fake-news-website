@@ -32,5 +32,10 @@
             "error",
             4
         ]
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 }
