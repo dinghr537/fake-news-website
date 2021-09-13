@@ -92,10 +92,11 @@
 /* Finish of the block: Works on Chrome, Edge, and Safari */
 
 .no-tag {
-  font-size: 30px;
-  color: rgb(160, 160, 160);
-  padding: 30px 60px 30px 60px;
   border: 2px solid rgb(80, 80, 80);
+  color: rgb(160, 160, 160);
+  font-size: 30px;
+  padding: 30px 60px;
+
   @media screen and (min-width: $md) {
     margin-top: 30vh;
   }
@@ -176,6 +177,7 @@
   flex-wrap: wrap;
   justify-content: center;
   min-width: 30vw;
+
   @media screen and (min-width: $md) {
     max-height: 90vh;
     overflow-y: scroll;
@@ -199,8 +201,8 @@
   margin-right: 20px;
   margin-top: 40px;
   max-width: 100%;
-  min-width: 40vw;
   min-height: 200px;
+  min-width: 40vw;
   padding: 20;
   word-break: break-all;
 }
