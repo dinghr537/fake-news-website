@@ -15,7 +15,7 @@ import EditorStyle from './../style/Editor.module.scss'
 
 TagList.propTypes = {
     tagVariables: PropTypes.object,
-    value: PropTypes.number,
+    value: PropTypes.object,
     onChange: PropTypes.func,
 }
 
@@ -37,7 +37,6 @@ function TagList(props) {
     )
     for (const tag in orderedTagVariables) {
         if (typeof (tag) == 'string') {
-            console.log(tag)
             const tagNameWithoutNum = tag.replace(/[0-9]/g, '')
             if (!tagCollection.includes(tagNameWithoutNum)) {
                 continue
@@ -64,14 +63,13 @@ function TagList(props) {
                         }}
                         value={props.value[tag]}
                         onChange={props.onChange}
-                        variant="outlined"
+                        variant='outlined'
                     />
                 </React.Fragment>,
             )
         }
     }
 
-    console.log(list.length)
     const noTag = (
         <div className={EditorStyle['no-tag']}>
             <p>
@@ -231,14 +229,14 @@ export default function EditorContent() {
                                     <AccordionSummary
                                         className={accordionState}
                                         expandIcon={<ExpandMoreIcon style={{fill: 'white'}} />}
-                                        aria-controls="panel1a-content"
-                                        id="panel1a-header"
+                                        aria-controls='panel1a-content'
+                                        id='panel1a-header'
                                     >
                                         <Typography className={EditorStyle['heading']}>修改新聞內容</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <TextField className={EditorStyle['editor-field']}
-                                            id="news"
+                                            id='news'
                                             multiline
                                             InputProps={{
                                                 className: EditorStyle['editor-field'],
@@ -248,7 +246,7 @@ export default function EditorContent() {
                                             }}
                                             value={news}
                                             onChange={handleEdit}
-                                            variant="outlined"
+                                            variant='outlined'
                                         />
 
                                     </AccordionDetails>
